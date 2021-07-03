@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
 	int		gnl_fd;
 	char	*gnl_line;
 	pid_t   childpid;
-	char    *string;
 	char    readbuffer[30];
 
 	if (pipe(pipe_fds) == -1)
@@ -34,17 +33,20 @@ int main(int argc, char *argv[])
 	}
 	if (childpid == 0)
 	{
+		dup2(pipe_fds[1], 1);
 		close(pipe_fds[0]);
+		close(pipe_fds[1]);
 		gnl_fd = open(argv[1], O_RDONLY);
 		get_next_line(gnl_fd, &gnl_line);
-		string = "Hello, world!\0";
-		write(pipe_fds[1], gnl_line, strlen(gnl_line) + 1);
-	}
+		write(1, gnl_line, strlen(gnl_line) + 1);
+	 }
 	else
 	{
 	//	wait(NULL);
+		dup2(pipe_fds[0], 0);
 		close(pipe_fds[1]);
-		read(pipe_fds[0], readbuffer, sizeof(readbuffer));
+		close(pipe_fds[0]);
+		read(0, readbuffer, sizeof(readbuffer));
 		printf("Read text is: %s\n", readbuffer);
 	}
 	return(0);
