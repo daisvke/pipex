@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/03 12:13:14 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/04 01:54:37 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@
 # include <fcntl.h>
 
 int	get_next_line(int fd, char **line);
+char    **ft_split(char const *s, char c); 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/03 12:16:44 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/04 10:26:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 	char	*gnl_line;
 	pid_t   childpid;
 	char    readbuffer[30];
+
+	char	**cmd;
 
 	if (pipe(pipe_fds) == -1)
 	{
@@ -43,11 +45,21 @@ int main(int argc, char *argv[])
 	else
 	{
 	//	wait(NULL);
+		cmd = ft_split(argv[2], ' ');
 		dup2(pipe_fds[0], 0);
 		close(pipe_fds[1]);
 		close(pipe_fds[0]);
 		read(0, readbuffer, sizeof(readbuffer));
+
+		if (execvp(cmd[0], cmd) == -1)
+		{
+			if (error == EACCESS)
+				printf("[ERROR] Permission is denied for a file\n");
+			else
+				perror("execvp");
+			exit(EXIT_FAILURE);
+		}
 		printf("Read text is: %s\n", readbuffer);
 	}
-	return(0);
+	exit(EXIT_SUCCESS);
 }
