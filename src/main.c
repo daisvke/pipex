@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 	char	*gnl_line;
 	pid_t   childpid;
 	char    readbuffer[30];
+	int	error;
 
 	char	**cmd;
 
@@ -50,12 +51,12 @@ int main(int argc, char *argv[])
 		close(pipe_fds[1]);
 		close(pipe_fds[0]);
 		read(0, readbuffer, sizeof(readbuffer));
-
+		error = execvp(cmd[0], cmd) == -1;
 		if (execvp(cmd[0], cmd) == -1)
 		{
-			if (error == EACCESS)
-				printf("[ERROR] Permission is denied for a file\n");
-			else
+		//	if (error == EACCESS)
+		//		printf("[ERROR] Permission is denied for a file\n");
+		//	else
 				perror("execvp");
 			exit(EXIT_FAILURE);
 		}

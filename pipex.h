@@ -20,6 +20,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <errno.h>
 
 int	get_next_line(int fd, char **line);
 char    **ft_split(char const *s, char c); 
