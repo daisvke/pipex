@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/04 01:54:37 by root             ###   ########.fr       */
+/*   Updated: 2021/07/06 04:55:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <string.h>
 # include <stdlib.h>
 # include <fcntl.h>
