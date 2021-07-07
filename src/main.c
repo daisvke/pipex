@@ -50,8 +50,8 @@ void	ft_call_parent_to_execute_cmd(int *pipe_fds, char **argv)
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
 	cmd2 = ft_split(argv[3], ' ');
-	file_fd = open(argv[4], O_WRONLY);
-//	dup2(1, file_fd);
+	file_fd = open(argv[4], O_CREAT | O_WRONLY);
+	dup2(1, file_fd);
 //	error = execve(cmd2[0], cmd2, NULL);
 	if (execvp(cmd2[0], cmd2) == -1)
 		ft_exit_when_error_occurs("execvp");
