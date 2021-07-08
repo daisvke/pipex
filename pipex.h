@@ -27,11 +27,13 @@
 # define OK	1
 
 void	ft_exit_when_error_occurs(char *error_message);
+void	ft_free_cmd_and_exit_when_error_occurs(char *cmd, char *error_message);
 void	ft_free_split(char **array_of_pointers);
 int		get_next_line(int fd, char **line);
 char	*ft_join_three_str(char *str1, char *str2, char *str3);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_putstr(char *str);
+void	ft_putstr_fd(char *s, int fd);
 char    **ft_split(char const *s, char c); 
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);

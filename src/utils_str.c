@@ -47,3 +47,10 @@ void	ft_free_split(char *split[])
 	free(split);
 	split = NULL;
 }
+
+void	ft_free_cmd_and_exit_when_error_occurs(char *cmd, char *error_message)
+{
+	free(cmd);
+	cmd = NULL;
+	ft_exit_when_error_occurs(error_message);
+}

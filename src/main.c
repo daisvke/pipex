@@ -70,9 +70,10 @@ char	*ft_get_the_right_cmd_path(char *envp[], char *key, char *cmd)
 	return (path_cmd_at_i);
 }
 
-void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[])
+void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 {
 	int		fd;
+	char	*path_to_cmd;
 	char	**cmd1;
 
 	close(0);
@@ -85,7 +86,8 @@ void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[])
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		ft_exit_when_error_occurs("open");
-	if (execvp(cmd1[0], cmd1) == -1)
+	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd1[0]);
+	if (execve(path_to_cmd, cmd1, envp) == -1)
 		ft_exit_when_error_occurs("execvp");
 	close(fd);
 }
@@ -108,10 +110,7 @@ void	ft_call_parent_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 	dup2(1, file_fd);
 	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd2[0]);
 	if (execve(path_to_cmd, cmd2, NULL) == -1)
-	{
-		free(path_to_cmd);
-		ft_exit_when_error_occurs("execve");
-	}
+		ft_free_cmd_and_exit_when_error_occurs(path_to_cmd, "execve");
 	free(path_to_cmd);
 	path_to_cmd = NULL;
 	close(file_fd);
@@ -125,7 +124,7 @@ int main(int argc, char *argv[], char *envp[])
     if(argc < 5)
     {
 		// in stderr
-        ft_putstr("Usage: ./pipex <input file> <cmd1> <cmd2> <output file>\n");
+        ft_putstr_fd("Usage: ./pipex <input file> <cmd1> <cmd2> <output file>\n", 2);
         exit(EXIT_FAILURE);
     }
 	if (pipe(pipe_fds) == -1)
@@ -134,7 +133,7 @@ int main(int argc, char *argv[], char *envp[])
 	if (pid == -1)
 		ft_exit_when_error_occurs("fork");
 	if (pid == 0)
-		ft_call_child_to_execute_cmd(pipe_fds, argv);
+		ft_call_child_to_execute_cmd(pipe_fds, argv, envp);
 	else
 		ft_call_parent_to_execute_cmd(pipe_fds, argv, envp);
 	exit(EXIT_SUCCESS);
