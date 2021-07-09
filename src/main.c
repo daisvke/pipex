@@ -6,114 +6,83 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/08 17:28:09 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 02:33:49 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	ft_exit_when_error_occurs(char *error_message)
+int	ft_open_file(char *file_name, int flags, int mod)
 {
-	perror(error_message);
-	exit(EXIT_FAILURE);
-}
+	int		fd;
+	char 	*err_message;
 
-bool	ft_check_access(char *path)
-{
-	if (access(path, F_OK) != 0 || access(path, X_OK) != 0)
-		return (false);
-	return (true);
-}
-
-char	*ft_get_key_value_from_envp(char *envp[], char *key)
-{
-	size_t	i;
-	size_t	key_len;
-
-	key_len = ft_strlen(key);
-	i = 0;
-	while (envp[i])
+	if (mod)
+		fd = open(file_name, flags, mod);
+	else
+		fd = open(file_name, flags);
+	if (fd == -1)
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0)
-			return (envp[i] + key_len);
-		++i;
+		err_message = strerror(errno);
+		ft_putstr_fd("pipex: ", 2);
+		ft_putstr_fd(err_message, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(file_name, 2);
+		exit(EXIT_FAILURE);
 	}
-	return (NULL);
-}
-
-char	*ft_get_the_right_cmd_path(char *envp[], char *key, char *cmd)
-{
-	char	*paths_envp;
-	char	**paths_envp_split;
-	char	*path_cmd_at_i;
-	size_t	i;
-
-	paths_envp = ft_get_key_value_from_envp(envp, "PATH=");
-//	if path_envp == NULL 
-	paths_envp_split = ft_split(paths_envp, ':');
-	i = 0;
-	path_cmd_at_i = NULL;
-
-	while (paths_envp_split[i])
-	{
-		path_cmd_at_i = ft_join_three_str(paths_envp_split[i], "/", cmd);
-		if (ft_check_access(path_cmd_at_i) == OK)
-			break ;
-		free(path_cmd_at_i);
-		++i;
-	}
-	ft_free_split(paths_envp_split);
-	if (!path_cmd_at_i)
-	{
-		free(paths_envp);
-	}
-	return (path_cmd_at_i);
+	return (fd);
 }
 
 void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 {
-	int		fd;
 	char	*path_to_cmd;
 	char	**cmd1;
+	int		fd;
 
 	close(0);
 	close(1);
 	if (dup2(pipe_fds[1], 1) == -1)
-		ft_exit_when_error_occurs("dup2");
+		ft_exit_with_error_message("dup2 failed");
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
 	cmd1 = ft_split(argv[2], ' ');
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		ft_exit_when_error_occurs("open");
+	fd = ft_open_file(argv[1], O_RDONLY, 0);
 	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd1[0]);
-	if (execve(path_to_cmd, cmd1, envp) == -1)
-		ft_exit_when_error_occurs("execvp");
+	if (path_to_cmd && execve(path_to_cmd, cmd1, envp) == -1)
+		ft_exit_when_cmd_not_found(cmd1[0]);
+	if (path_to_cmd)
+	{
+		free(path_to_cmd);
+		path_to_cmd = NULL;
+	}
 	close(fd);
 }
 
 void	ft_call_parent_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 {
-	int 	file_fd;
+	int 	fd;
 	char	*path_to_cmd;
 	char	**cmd2;
 
-	wait(NULL);
 	cmd2 = ft_split(argv[3], ' ');
 	close(0);
 	close(1);
 	if (dup2(pipe_fds[0], 0) == -1)
-		ft_exit_when_error_occurs("dup2");
+		ft_exit_with_error_message("dup2 failed");
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
-	file_fd = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	dup2(1, file_fd);
+	fd = ft_open_file(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (dup2(1, fd) == -1)
+		ft_exit_with_error_message("dup2 failed");
 	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd2[0]);
 	if (execve(path_to_cmd, cmd2, NULL) == -1)
-		ft_free_cmd_and_exit_when_error_occurs(path_to_cmd, "execve");
-	free(path_to_cmd);
-	path_to_cmd = NULL;
-	close(file_fd);
+		ft_exit_when_cmd_not_found(cmd2[0]);
+	if (path_to_cmd)
+	{
+		free(path_to_cmd);
+		path_to_cmd = NULL;
+	}
+	close(fd);
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -123,15 +92,14 @@ int main(int argc, char *argv[], char *envp[])
 
     if(argc < 5)
     {
-		// in stderr
-        ft_putstr_fd("Usage: ./pipex <input file> <cmd1> <cmd2> <output file>\n", 2);
+        ft_putstr_fd("Usage: ./pipex [input file] [cmd1] [cmd2] [output file]\n", 2);
         exit(EXIT_FAILURE);
     }
 	if (pipe(pipe_fds) == -1)
-		ft_exit_when_error_occurs("pipe");
+		ft_exit_with_error_message("pipe failed");
 	pid = fork();
 	if (pid == -1)
-		ft_exit_when_error_occurs("fork");
+		ft_exit_with_error_message("failed to fork child process");
 	if (pid == 0)
 		ft_call_child_to_execute_cmd(pipe_fds, argv, envp);
 	else

@@ -1,3 +1,7 @@
+# vim
+.*.c.swp
+.*.c.swo
+
 # Prerequisites
 *.d
 
