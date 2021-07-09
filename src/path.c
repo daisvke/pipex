@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 01:34:45 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 01:57:25 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 03:30:51 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,3 @@ char	*ft_get_the_right_cmd_path(char *envp[], char *key, char *cmd)
 	paths_envp_split = NULL;
 	return (path_cmd_at_i);
 }
-

@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 02:12:46 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 03:30:51 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size);
 void	ft_free_split(char **array_of_pointers);
 char	*ft_join_three_str(char *str1, char *str2, char *str3);
 
-
 int		get_next_line(int fd, char **line);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr(char *str);
 void	ft_putstr_fd(char *s, int fd);
-char    **ft_split(char const *s, char c); 
+char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

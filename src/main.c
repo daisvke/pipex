@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 02:33:49 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 03:30:51 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_open_file(char *file_name, int flags, int mod)
 {
 	int		fd;
-	char 	*err_message;
+	char	*err_message;
 
 	if (mod)
 		fd = open(file_name, flags, mod);
@@ -60,7 +60,7 @@ void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 
 void	ft_call_parent_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 {
-	int 	fd;
+	int		fd;
 	char	*path_to_cmd;
 	char	**cmd2;
 
@@ -85,14 +85,15 @@ void	ft_call_parent_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 	close(fd);
 }
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	int     pipe_fds[2];
-	pid_t   pid;
+	int		pipe_fds[2];
+	pid_t	pid;
 
-    if(argc < 5)
-    {
-        ft_putstr_fd("Usage: ./pipex [input file] [cmd1] [cmd2] [output file]\n", 2);
+	if (argc < 5)
+	{
+		ft_putstr_fd( \
+			"Usage: ./pipex [input file] [cmd1] [cmd2] [output file]\n", 2);
         exit(EXIT_FAILURE);
     }
 	if (pipe(pipe_fds) == -1)
