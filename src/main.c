@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 03:30:51 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 03:33:53 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc < 5)
 	{
-		ft_putstr_fd( \
+		ft_putstr_fd(\
 			"Usage: ./pipex [input file] [cmd1] [cmd2] [output file]\n", 2);
-        exit(EXIT_FAILURE);
-    }
+		exit(EXIT_FAILURE);
+	}
 	if (pipe(pipe_fds) == -1)
 		ft_exit_with_error_message("pipe failed");
 	pid = fork();
