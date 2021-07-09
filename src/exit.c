@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 03:33:53 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 03:48:03 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ void	ft_exit_with_error_message(char *error_message)
 	ft_putendl_fd(error_message, 2);
 	exit(EXIT_FAILURE);
 }
-/*
-void	ft_exit_when_error_occurs(char *error_message)
-{
-	perror(error_message);
-	exit(EXIT_FAILURE);
-}
-*/
 
 void	ft_exit_when_cmd_not_found(char *cmd)
 {

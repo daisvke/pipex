@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 03:33:53 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/09 15:12:30 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,54 @@ int	ft_open_file(char *file_name, int flags, int mod)
 	}
 	return (fd);
 }
+/*
+void	ft_spawn_child_to_execute_cmd(int *pipe_fds, char *argv[], int pos, \
+	char *envp[])
+{
+	char	*path_to_cmd;
+	char	**cmd;
 
-void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
+	close(0);
+	close(1);
+	if (dup2(pipe_fds[0], 0) == -1)
+		ft_exit_with_error_message("dup2 failed");
+	if (dup2(pipe_fds[1], 1) == -1)
+		ft_exit_with_error_message("dup2 failed");
+	close(pipe_fds[0]);
+	close(pipe_fds[1]);
+	cmd = ft_split(argv[pos], ' ');
+	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd[0]);
+	if (path_to_cmd && execve(path_to_cmd, cmd, envp) == -1)
+		ft_exit_when_cmd_not_found(cmd[0]);
+	if (path_to_cmd)
+	{
+		free(path_to_cmd);
+		path_to_cmd = NULL;
+	}
+}*/
+
+void	ft_spawn_child_to_execute_cmd(int fd_in, int *pipe_fds, int argc, char *argv[], \
+	int pos, char *envp[])
 {
 	char	*path_to_cmd;
 	char	**cmd1;
 	int		fd;
 
-	close(0);
-	close(1);
 	if (dup2(pipe_fds[1], 1) == -1)
+		ft_exit_with_error_message("dup2 failed");
+	if (dup2(fd_in, 0) == -1)
 		ft_exit_with_error_message("dup2 failed");
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
-	cmd1 = ft_split(argv[2], ' ');
-	fd = ft_open_file(argv[1], O_RDONLY, 0);
+	cmd1 = ft_split(argv[pos], ' ');
+	if (pos == 2)
+	{
+		fd = ft_open_file(argv[1], O_RDONLY, 0);
+	if (dup2(fd, 0) == -1)
+		ft_exit_with_error_message("dup2 failed for fd");
+	}
+	if (pos == argc - 2)
+		fd = ft_open_file(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd1[0]);
 	if (path_to_cmd && execve(path_to_cmd, cmd1, envp) == -1)
 		ft_exit_when_cmd_not_found(cmd1[0]);
@@ -57,21 +90,22 @@ void	ft_call_child_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 	}
 	close(fd);
 }
-
-void	ft_call_parent_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
+/*
+void	ft_call_parent_to_execute_cmd(int *pipe_fds, int argc, char *argv[], \
+	char *envp[])
 {
 	int		fd;
 	char	*path_to_cmd;
 	char	**cmd2;
 
-	cmd2 = ft_split(argv[3], ' ');
+	cmd2 = ft_split(argv[argc - 2], ' ');
 	close(0);
 	close(1);
 	if (dup2(pipe_fds[0], 0) == -1)
 		ft_exit_with_error_message("dup2 failed");
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
-	fd = ft_open_file(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	fd = ft_open_file(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (dup2(1, fd) == -1)
 		ft_exit_with_error_message("dup2 failed");
 	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd2[0]);
@@ -83,11 +117,13 @@ void	ft_call_parent_to_execute_cmd(int *pipe_fds, char *argv[], char *envp[])
 		path_to_cmd = NULL;
 	}
 	close(fd);
-}
+}*/
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	int		pipe_fds[2];
+	int		fd_in = 0;
+	int		i;
 	pid_t	pid;
 
 	if (argc < 5)
@@ -96,14 +132,47 @@ int	main(int argc, char *argv[], char *envp[])
 			"Usage: ./pipex [input file] [cmd1] [cmd2] [output file]\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	/*
 	if (pipe(pipe_fds) == -1)
 		ft_exit_with_error_message("pipe failed");
-	pid = fork();
-	if (pid == -1)
+	pid_main = fork();
+	if (pid_main == -1)
 		ft_exit_with_error_message("failed to fork child process");
-	if (pid == 0)
-		ft_call_child_to_execute_cmd(pipe_fds, argv, envp);
+	if (pid_main == 0)
+	{
+		ft_call_first_child_to_execute_cmd(pipe_fds, argv, envp);*/
+	i = 2;
+	while (i < argc - 1)
+	{
+		if (pipe(pipe_fds) == -1)
+			ft_exit_with_error_message("pipe failed");
+		pid = fork();
+		if (pid == -1)
+			ft_exit_with_error_message("failed to fork child process");
+		if (pid == 0)
+			ft_spawn_child_to_execute_cmd(fd_in, pipe_fds, argc, argv, i, envp);
+		else
+		{
+			close(1);
+			close(pipe_fds[1]);
+			fd_in = pipe_fds[0];	
+			++i;
+		}
+	}
+			/*	else
+				{
+	close(0);
+	close(1);
+	if (dup2(pipe_fds[0], 0) == -1)
+		ft_exit_with_error_message("dup2 failed");
+//	close(pipe_fds[0]);
+	close(pipe_fds[1]);
+				++i;
+				}
+			}
+		
+	}
 	else
-		ft_call_parent_to_execute_cmd(pipe_fds, argv, envp);
+		ft_call_parent_to_execute_cmd(pipe_fds, argc, argv, envp);*/
 	exit(EXIT_SUCCESS);
 }
