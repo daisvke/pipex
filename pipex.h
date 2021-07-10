@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 03:30:51 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/10 04:47:10 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,23 @@
 # include <errno.h>
 # include <stdbool.h>
 
-# define OK	1
+# define OK				1
+# define FIRST_CMD		2
+# define GET_LAST_CMD	2
+# define INPUT_FILE		1
+# define NO_INPUT_FILE	0
+
+/*
+** get_next_line
+*/
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 32
+# endif
+
+# define ERROR -1
+# define ERROR2 -2
+# define REACHED_EOF 0
+# define LINE_READ 1
 
 /*
 ** path
@@ -36,9 +52,11 @@ char	*ft_get_the_right_cmd_path(char *envp[], char *key, char *cmd);
 /*
 ** exit
 */
+void	ft_exit_and_print_usage(void);
 void	ft_exit_when_cmd_not_found(char *cmd);
 void	ft_exit_when_error_occurs(char *error_message);
 void	ft_exit_with_error_message(char *error_message);
+void	ft_free_path_to_cmd(char *path_to_cmd);
 
 /*
 ** utils_str
@@ -56,5 +74,14 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+/*
+** get_next_line
+*/
+int	ft_gnl_bzero(char *s, size_t n);
+int	ft_gnl_strchr(char *s, char c);
+size_t	ft_gnl_strlen(char *s);
+char	*ft_gnl_substr(char *s, size_t start, size_t len);
+char	*ft_strdup(char *src, int size);
 
 #endif
