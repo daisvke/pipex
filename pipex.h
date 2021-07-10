@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/10 14:20:29 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/11 01:40:03 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct	s_env
 	int		pos;
 	int		argc;
 	int		fd_in;
+	bool	heredoc;
 }			t_env;
 
 /*

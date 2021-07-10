@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/10 14:38:07 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/11 01:38:34 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_get_fd(t_env *env, char *argv[])
 	{
 		fd = ft_open_file(argv[INPUT_FILE], O_RDONLY, 0);
 		if (dup2(fd, 0) == -1)
-			ft_exit_with_error_message("dup2 failed for fd");
+			ft_exit_with_error_message("dup2 failed");
 	}
 	else if (env->pos == env->argc - GET_LAST_CMD)
 	{
@@ -80,6 +80,7 @@ void	ft_save_data_from_child(t_env *env)
 	close(env->pipe_fds[1]);
 	env->fd_in = env->pipe_fds[0];
 	close(env->pipe_fds[1]);
+	++env->pos;
 }
 
 void	ft_pipex(char *argv[], char *envp[], t_env *env)
@@ -87,7 +88,7 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 	int		pipe_fds[2];
 	pid_t	pid;
 
-	env->pos = 2;
+	env->pos += 2;
 	while (env->pos < env->argc - 1)
 	{
 		if (pipe(pipe_fds) == -1)
@@ -99,33 +100,20 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 		if (pid == 0)
 			ft_spawn_child_to_execute_cmd(env, argv, envp);
 		else
-		{
-			// remove parentheses ?
 			ft_save_data_from_child(env);
-			++env->pos;
-		}
 	}
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
-
-	str = s;
-	while (n--)
-		*str++ = 0;
 }
 
 t_env	*ft_init_env( int argc)
 {
 	t_env	*env;
-env = NULL;
+
 	env = malloc(sizeof(*env));
-//	ft_bzero(env, sizeof(env));
-			env->pipe_fds = 0;
-			env->pos= 0;
-			env->argc= 0;
-			env->fd_in = 0;
+	env->pipe_fds = 0;
+//	if (ft_strncmp(argv[1], "here_doc")
+	env->pos = 0;
+	env->argc = 0;
+	env->fd_in = 0;
 	env->argc = argc;
 	return (env);
 }
