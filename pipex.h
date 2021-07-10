@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/10 04:47:10 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/10 14:20:29 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@
 # define REACHED_EOF 0
 # define LINE_READ 1
 
+typedef struct	s_env
+{
+	int		*pipe_fds;
+	int		pos;
+	int		argc;
+	int		fd_in;
+}			t_env;
+
 /*
 ** path
 */
@@ -74,6 +82,8 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+void	ft_bzero(void *s, size_t n);
 
 /*
 ** get_next_line
