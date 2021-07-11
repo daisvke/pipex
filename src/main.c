@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/11 01:38:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/11 05:29:29 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	ft_get_fd(t_env *env, char *argv[])
 	else if (env->pos == env->argc - GET_LAST_CMD)
 	{
 		fd = ft_open_file(argv[env->argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+		
 		if (dup2(fd, 1) == -1)
 			ft_exit_with_error_message("dup2 failed");
 	}
@@ -64,7 +65,7 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 		ft_exit_with_error_message("dup2 failed");
 	if (dup2(env->fd_in, 0) == -1)
 		ft_exit_with_error_message("dup2 failed");
-	close(env->pipe_fds[0]);
+//	close(env->pipe_fds[0]);
 	close(env->pipe_fds[1]);
 	cmd1 = ft_split(argv[env->pos], ' ');
 	fd = ft_get_fd(env, argv);
@@ -79,7 +80,6 @@ void	ft_save_data_from_child(t_env *env)
 {
 	close(env->pipe_fds[1]);
 	env->fd_in = env->pipe_fds[0];
-	close(env->pipe_fds[1]);
 	++env->pos;
 }
 
@@ -91,6 +91,13 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 	env->pos += 2;
 	while (env->pos < env->argc - 1)
 	{
+	char	*line;
+	line = NULL;
+	if (env->heredoc && env->pos == 3)
+	{
+//		if (dup2(env->pipe_fds[0], 0) == -1)
+//			ft_exit_with_error_message("dup2 failed");
+	}
 		if (pipe(pipe_fds) == -1)
 			ft_exit_with_error_message("pipe failed");
 		env->pipe_fds = pipe_fds;
@@ -98,23 +105,45 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 		if (pid == -1)
 			ft_exit_with_error_message("failed to fork child process");
 		if (pid == 0)
-			ft_spawn_child_to_execute_cmd(env, argv, envp);
-		else
-			ft_save_data_from_child(env);
+		{			if (env->heredoc && env->pos == 3)
+			{
+			while (true)
+			{
+				get_next_line(0, &line);
+				ft_putstr_fd(line, pipe_fds[0]);
+				ft_putstr_fd("\n", pipe_fds[0]);
+				if (ft_strncmp(line, argv[2], ft_strlen(argv[2])) == 0)
+					break ;
+
+				free(line);
+			}
+			free(line);
+			line = NULL;
+			}
+			if (!(env->heredoc && env->pos == 3))
+				ft_spawn_child_to_execute_cmd(env, argv, envp);
+		}
+
+				ft_save_data_from_child(env);
 	}
 }
 
-t_env	*ft_init_env( int argc)
+t_env	*ft_init_env(int argc, char *argv[])
 {
 	t_env	*env;
 
 	env = malloc(sizeof(*env));
 	env->pipe_fds = 0;
-//	if (ft_strncmp(argv[1], "here_doc")
 	env->pos = 0;
 	env->argc = 0;
 	env->fd_in = 0;
 	env->argc = argc;
+	env->heredoc = false;
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		env->heredoc = true;
+		++env->pos;
+	}
 	return (env);
 }
 
@@ -125,7 +154,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc < 5)
 		ft_exit_and_print_usage();
 	env = NULL;
-	env = ft_init_env(argc);
+	env = ft_init_env(argc, argv);
 	ft_pipex(argv, envp, env);
 	free(env);
 	env = NULL;
