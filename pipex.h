@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 12:43:56 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:15:19 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ typedef struct	s_env
 }			t_env;
 
 /*
+** utils_fd
+*/
+int		ft_get_fd(t_env *env, char *argv[]);
+void	ft_input_heredoc(char *argv[]);
+
+/*
 ** path
 */
 bool	ft_check_access(char *path);
@@ -85,13 +91,11 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-void	ft_bzero(void *s, size_t n);
-
 /*
 ** get_next_line
 */
-int	ft_gnl_bzero(char *s, size_t n);
-int	ft_gnl_strchr(char *s, char c);
+int		ft_gnl_bzero(char *s, size_t n);
+int		ft_gnl_strchr(char *s, char c);
 size_t	ft_gnl_strlen(char *s);
 char	*ft_gnl_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *src, int size);

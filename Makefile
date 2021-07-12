@@ -13,6 +13,7 @@ SRC_FILES	=	exit.c \
 				main.c \
 				path.c \
 				split.c \
+				utils_fd.c \
 				utils_str.c \
 				utils_str_fd.c
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
