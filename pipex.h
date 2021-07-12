@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:58:19 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 14:01:59 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	ft_input_heredoc(t_env *env, char *argv[]);
 */
 bool	ft_check_access(char *path);
 char	*ft_get_key_value_from_envp(char *envp[], char *key);
-char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, char *cmd);
+char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], \
+	char *key, char *cmd);
 
 /*
 ** exit

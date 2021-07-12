@@ -6,13 +6,12 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:52:37 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 14:01:59 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-// FREE T_ENV
 void	ft_exit_and_print_usage(void)
 {
 	ft_putstr_fd(\
