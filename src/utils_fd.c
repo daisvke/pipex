@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 13:12:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:39:39 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:54:42 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,25 @@ int	ft_get_fd(t_env *env, char *argv[])
 	{
 		fd = ft_open_file("heredoc_output", O_RDONLY, 0);
 		if (dup2(fd, 0) == -1)
-			ft_exit_with_error_message("dup2 failed");
+			ft_exit_with_error_message(env, "dup2 failed");
 	}
 	else if (env->pos == FIRST_CMD)
 	{
 		fd = ft_open_file(argv[INPUT_FILE], O_RDONLY, 0);
 		if (dup2(fd, 0) == -1)
-			ft_exit_with_error_message("dup2 failed");
+			ft_exit_with_error_message(env, "dup2 failed");
 	}
 	else if (env->pos == env->argc - GET_LAST_CMD)
 	{
 		fd = ft_open_file(argv[env->argc - 1], \
 			O_CREAT | O_WRONLY | O_TRUNC, 0664);
 		if (dup2(fd, 1) == -1)
-			ft_exit_with_error_message("dup2 failed");
+			ft_exit_with_error_message(env, "dup2 failed");
 	}
 	return (fd);
 }
 
-void	ft_input_heredoc(char *argv[])
+void	ft_input_heredoc(t_env *env, char *argv[])
 {
 	int		fd;
 	char	*line;
@@ -68,7 +68,7 @@ void	ft_input_heredoc(char *argv[])
 	line = NULL;
 	fd = ft_open_file("heredoc_output", O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (dup2(fd, 1) == -1)
-		ft_exit_with_error_message("dup2 failed");
+		ft_exit_with_error_message(env, "dup2 failed");
 	while (get_next_line(0, &line))
 	{
 		if (ft_strncmp(line, argv[2], ft_strlen(argv[2])) == 0)

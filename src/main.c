@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:38:02 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:57:43 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 
 	close(1);
 	if (dup2(env->pipe_fds[1], 1) == -1)
-		ft_exit_with_error_message("dup2 failed");
+		ft_exit_with_error_message(env, "dup2 failed");
 	if (dup2(env->fd_in, 0) == -1)
-		ft_exit_with_error_message("dup2 failed");
+		ft_exit_with_error_message(env, "dup2 failed");
 	close(env->pipe_fds[0]);
 	close(env->pipe_fds[1]);
 	cmd1 = ft_split(argv[env->pos], ' ');
 	fd = ft_get_fd(env, argv);
-	path_to_cmd = ft_get_the_right_cmd_path(envp, "PATH=", cmd1[0]);
+	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", cmd1[0]);
 	if (path_to_cmd && execve(path_to_cmd, cmd1, envp) == -1)
-		ft_exit_when_cmd_not_found(cmd1[0]);
+		ft_exit_when_cmd_not_found(env, cmd1[0]);
 	ft_free_path_to_cmd(path_to_cmd);
 	close(fd);
 }
@@ -47,14 +47,14 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 
 	env->pos += 2;
 	if (env->heredoc)
-		ft_input_heredoc(argv);
+		ft_input_heredoc(env, argv);
 	while (env->pos < env->argc - 1)
 	{
 		if (pipe(env->pipe_fds) == -1)
-			ft_exit_with_error_message("pipe failed");
+			ft_exit_with_error_message(env, "pipe failed");
 		pid = fork();
 		if (pid == -1)
-			ft_exit_with_error_message("failed to fork child process");
+			ft_exit_with_error_message(env, "failed to fork child process");
 		if (pid == 0)
 			ft_spawn_child_to_execute_cmd(env, argv, envp);
 		else
@@ -69,6 +69,8 @@ t_env	*ft_init_env(int argc, char *argv[])
 	t_env	*env;
 
 	env = malloc(sizeof(*env));
+	if (!env)
+		ft_exit_with_error_message(env, "malloc failed");
 	env->pipe_fds[0] = 0;
 	env->pipe_fds[1] = 0;
 	env->pos = 0;

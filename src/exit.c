@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/10 14:20:29 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:52:37 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@ void	ft_exit_and_print_usage(void)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_exit_with_error_message(char *error_message)
+void	ft_exit_with_error_message(t_env *env, char *error_message)
 {
 	ft_putstr_fd("pipex: ", 2);
 	ft_putendl_fd(error_message, 2);
+	if (env)
+		free(env);
+	env = NULL;
 	exit(EXIT_FAILURE);
 }
 
-void	ft_exit_when_cmd_not_found(char *cmd)
+void	ft_exit_when_cmd_not_found(t_env *env, char *cmd)
 {
 	ft_putstr_fd("pipex: command not found: ", 2);
 	ft_putendl_fd(cmd, 2);
+	if (env)
+		free(env);
+	env = NULL;
 	exit(EXIT_FAILURE);
 }
 

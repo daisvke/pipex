@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:37:36 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:58:19 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,22 @@ typedef struct s_env
 ** utils_fd
 */
 int		ft_get_fd(t_env *env, char *argv[]);
-void	ft_input_heredoc(char *argv[]);
+void	ft_input_heredoc(t_env *env, char *argv[]);
 
 /*
 ** path
 */
 bool	ft_check_access(char *path);
 char	*ft_get_key_value_from_envp(char *envp[], char *key);
-char	*ft_get_the_right_cmd_path(char *envp[], char *key, char *cmd);
+char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, char *cmd);
 
 /*
 ** exit
 */
 void	ft_exit_and_print_usage(void);
-void	ft_exit_when_cmd_not_found(char *cmd);
-void	ft_exit_when_error_occurs(char *error_message);
-void	ft_exit_with_error_message(char *error_message);
+void	ft_exit_when_cmd_not_found(t_env *env, char *cmd);
+void	ft_exit_when_error_occurs(t_env *env, char *error_message);
+void	ft_exit_with_error_message(t_env *env, char *error_message);
 void	ft_free_path_to_cmd(char *path_to_cmd);
 
 /*
@@ -79,7 +79,7 @@ void	ft_free_path_to_cmd(char *path_to_cmd);
 */
 void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size);
 void	ft_free_split(char **array_of_pointers);
-char	*ft_join_three_str(char *str1, char *str2, char *str3);
+char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3);
 
 int		get_next_line(int fd, char **line);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
