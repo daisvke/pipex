@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 14:01:59 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 01:35:11 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@
 ** get_next_line
 */
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 32
+#  define BUFFER_SIZE 			32
 # endif
-
-# define ERROR -1
-# define ERROR2 -2
-# define REACHED_EOF 0
-# define LINE_READ 1
+# define ERROR 					-1
+# define ERROR2 				-2
+# define REACHED_EOF 			0
+# define LINE_READ 				1
 
 typedef struct s_env
 {
@@ -57,6 +56,8 @@ typedef struct s_env
 */
 int		ft_get_fd(t_env *env, char *argv[]);
 void	ft_input_heredoc(t_env *env, char *argv[]);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 
 /*
 ** path
@@ -79,22 +80,21 @@ void	ft_free_path_to_cmd(char *path_to_cmd);
 ** utils_str
 */
 void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size);
-void	ft_free_split(char **array_of_pointers);
 char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3);
-
-int		get_next_line(int fd, char **line);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putstr(char *str);
-void	ft_putstr_fd(char *s, int fd);
-char	**ft_split(char const *s, char c);
-char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+
+/*
+** split
+*/
+void	ft_free_split(char **array_of_pointers);
+char	**ft_split(char const *s, char c);
 
 /*
 ** get_next_line
 */
+int		get_next_line(int fd, char **line);
 int		ft_gnl_bzero(char *s, size_t n);
 int		ft_gnl_strchr(char *s, char c);
 size_t	ft_gnl_strlen(char *s);

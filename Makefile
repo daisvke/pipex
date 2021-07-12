@@ -14,8 +14,7 @@ SRC_FILES	=	exit.c \
 				path.c \
 				split.c \
 				utils_fd.c \
-				utils_str.c \
-				utils_str_fd.c
+				utils_str.c
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ_DIR		=	obj/
