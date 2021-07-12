@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 13:12:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:14:01 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:39:39 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_get_fd(t_env *env, char *argv[])
 	int	fd;
 
 	fd = 0;
- 	if (env->heredoc && env->pos == FIRST_CMD_WHEN_HEREDOC)
+	if (env->heredoc && env->pos == FIRST_CMD_WHEN_HEREDOC)
 	{
 		fd = ft_open_file("heredoc_output", O_RDONLY, 0);
 		if (dup2(fd, 0) == -1)
@@ -52,7 +52,8 @@ int	ft_get_fd(t_env *env, char *argv[])
 	}
 	else if (env->pos == env->argc - GET_LAST_CMD)
 	{
-		fd = ft_open_file(argv[env->argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);		
+		fd = ft_open_file(argv[env->argc - 1], \
+			O_CREAT | O_WRONLY | O_TRUNC, 0664);
 		if (dup2(fd, 1) == -1)
 			ft_exit_with_error_message("dup2 failed");
 	}

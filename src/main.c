@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:14:01 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:38:02 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 	while (env->pos < env->argc - 1)
 	{
 		if (pipe(env->pipe_fds) == -1)
-				ft_exit_with_error_message("pipe failed");
+			ft_exit_with_error_message("pipe failed");
 		pid = fork();
 		if (pid == -1)
 			ft_exit_with_error_message("failed to fork child process");

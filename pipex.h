@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 13:15:19 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 13:37:36 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define REACHED_EOF 0
 # define LINE_READ 1
 
-typedef struct	s_env
+typedef struct s_env
 {
 	int		pipe_fds[2];
 	int		pos;
