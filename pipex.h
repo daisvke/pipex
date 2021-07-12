@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/11 01:40:03 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/12 12:43:56 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 # include <errno.h>
 # include <stdbool.h>
 
-# define OK				1
-# define FIRST_CMD		2
-# define GET_LAST_CMD	2
-# define INPUT_FILE		1
-# define NO_INPUT_FILE	0
+# define OK						1
+# define FIRST_CMD				2
+# define GET_LAST_CMD			2
+# define INPUT_FILE				1
+# define NO_INPUT_FILE			0
+# define FIRST_CMD_WHEN_HEREDOC 3
 
 /*
 ** get_next_line
@@ -44,7 +45,7 @@
 
 typedef struct	s_env
 {
-	int		*pipe_fds;
+	int		pipe_fds[2];
 	int		pos;
 	int		argc;
 	int		fd_in;
