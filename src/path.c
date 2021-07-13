@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 01:34:45 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 14:01:59 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	ft_check_access(char *path)
 {
-	if (access(path, F_OK) != 0 || access(path, X_OK) != 0)
+	if (access(path, F_OK) != SUCCESS || access(path, X_OK) != SUCCESS)
 		return (false);
 	return (true);
 }
@@ -28,7 +28,7 @@ char	*ft_get_key_value_from_envp(char *envp[], char *key)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0)
+		if (ft_strncmp(envp[i], key, key_len) == SAME)
 			return (envp[i] + key_len);
 		++i;
 	}

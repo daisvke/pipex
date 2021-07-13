@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:36:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,15 @@
 
 # define OK						1
 # define FIRST_CMD				2
+# define GET_FIRST_CMD			2
 # define GET_LAST_CMD			2
 # define INPUT_FILE				1
 # define NO_INPUT_FILE			0
 # define FIRST_CMD_WHEN_HEREDOC 3
+# define ERROR 					-1
+# define SUCCESS				0
+# define SAME					0
+# define DIFFERENT				1
 
 /*
 ** get_next_line
@@ -37,7 +42,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 			32
 # endif
-# define ERROR 					-1
 # define ERROR2 				-2
 # define REACHED_EOF 			0
 # define LINE_READ 				1
@@ -55,7 +59,7 @@ typedef struct s_env
 ** utils_fd
 */
 int		ft_get_fd(t_env *env, char *argv[]);
-int	ft_open_file(char *file_name, int flags, int mod);
+int		ft_open_file(char *file_name, int flags, int mod);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 

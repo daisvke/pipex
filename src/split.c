@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 02:03:33 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/09 02:12:05 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 03:58:57 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_split_iter(char **split, char *s, char c)
 		if (!split[i])
 		{
 			ft_free_array_of_pointers(split, i);
-			return (-1);
+			return (ERROR);
 		}
 		i++;
 	}
@@ -95,12 +95,12 @@ char	**ft_split(char const *s, char c)
 	char	**split;
 
 	if (!s)
-		return (malloc(0));
+		return (NULL);
 	split = (char **)malloc(sizeof(*split) * (ft_wordcount((char *)s, c) + 1));
 	if (!split)
 		return (NULL);
 	res = ft_split_iter(split, (char *)s, c);
-	if (res < 0)
+	if (res == ERROR)
 		return (NULL);
 	return (split);
 }

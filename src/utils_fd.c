@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 13:12:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:36:03 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_open_file(char *file_name, int flags, int mod)
 		fd = open(file_name, flags, mod);
 	else
 		fd = open(file_name, flags);
-	if (fd == -1)
+	if (fd == ERROR)
 	{
 		err_message = strerror(errno);
 		ft_putstr_fd("pipex: ", 2);
@@ -43,19 +43,19 @@ int	ft_get_fd(t_env *env, char *argv[])
 	if (env->heredoc && env->pos == FIRST_CMD_WHEN_HEREDOC)
 	{
 		fd = ft_open_file("heredoc_output", O_RDONLY, 0);
-		if (dup2(fd, 0) == -1)
+		if (dup2(fd, 0) == ERROR)
 			ft_exit_with_error_message(env, "dup2 failed");
 	}
 	else if (env->pos == FIRST_CMD)
 	{
 		fd = ft_open_file(argv[INPUT_FILE], O_RDONLY, 0);
-		if (dup2(fd, 0) == -1)
+		if (dup2(fd, 0) == ERROR)
 			ft_exit_with_error_message(env, "dup2 failed");
 	}
 	else if (env->pos == env->argc - GET_LAST_CMD)
 	{
 		fd = ft_open_file(argv[env->argc - 1], open_flags, 0664);
-		if (dup2(fd, 1) == -1)
+		if (dup2(fd, 1) == ERROR)
 			ft_exit_with_error_message(env, "dup2 failed");
 	}
 	return (fd);
