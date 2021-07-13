@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 01:35:11 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 03:36:34 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_env
 ** utils_fd
 */
 int		ft_get_fd(t_env *env, char *argv[]);
-void	ft_input_heredoc(t_env *env, char *argv[]);
+int	ft_open_file(char *file_name, int flags, int mod);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 
@@ -90,6 +90,12 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 */
 void	ft_free_split(char **array_of_pointers);
 char	**ft_split(char const *s, char c);
+
+/*
+** heredoc
+*/
+int		ft_get_open_flags(t_env *env);
+void	ft_input_heredoc(t_env *env, char *argv[]);
 
 /*
 ** get_next_line
