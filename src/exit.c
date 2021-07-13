@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/12 14:01:59 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/13 04:06:19 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	ft_exit_and_print_usage(void)
 {
 	ft_putstr_fd(\
-		"Usage: ./pipex [input file] [cmd1] [cmd2] [output file]\n", 2);
+		"Usage1: ./pipex [input file] [cmd1] [cmd2] [output file]\n" \
+		"Usage2: ./pipex here_doc [limiter] [cmd] [cmd1] [output file]\n", 2);
 	exit(EXIT_FAILURE);
 }
 
