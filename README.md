@@ -23,11 +23,11 @@ and finally file2 is the file in which we write the output of the last command.
 ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 ```
 <p align=center>
-  <img src="/screenshots/multiple_pipes.png" width="40%" />
+  <img src="/screenshots/multiple_pipes.png" width="100%" />
 </p>
 * It supports '«' and '»' when the first parameter is "here_doc":
 <p align=center>
-  <img src="/screenshots/multiple_pipes_and_heredoc.png" width="40%" />
+  <img src="/screenshots/multiple_pipes_and_heredoc.png" width="100%" />
 </p>
 This is equivalent to:
 ```
