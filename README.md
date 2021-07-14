@@ -29,7 +29,7 @@ and finally file2 is the file in which we write the output from the last command
 <p align=center>
   <img src="/screenshots/multiple_pipes_and_heredoc.png" width="100%" />
 </p>
-*
+* This is equivalent to:
 ```
 cmd << LIMITER | cmd1 >> file
 ```
