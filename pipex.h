@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/14 15:21:01 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 ** split
 */
 void	ft_free_split(char **array_of_pointers);
-char	**ft_split(char const *s, char c);
+char	**ft_split(t_env *env, char const *s, char c);
 
 /*
 ** heredoc

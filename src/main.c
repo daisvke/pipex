@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/14 15:21:15 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 		ft_exit_with_error_message(env, "dup2 failed");
 	close(env->pipe_fds[0]);
 	close(env->pipe_fds[1]);
-	cmd1 = ft_split(argv[env->pos], ' ');
+	cmd1 = ft_split(env, argv[env->pos], ' ');
 	fd = ft_get_fd(env, argv);
 	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", cmd1[0]);
 	if (path_to_cmd && execve(path_to_cmd, cmd1, envp) == ERROR)

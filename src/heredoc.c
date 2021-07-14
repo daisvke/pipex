@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 03:34:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/14 18:09:50 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,15 @@ void	ft_input_heredoc(t_env *env, char *argv[])
 	fd = ft_open_file("heredoc_output", O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (dup2(fd, 1) == ERROR)
 		ft_exit_with_error_message(env, "dup2 failed");
-	while (get_next_line(0, &line))
+	while (get_next_line(0, &line) >= 0)
 	{
 		if (ft_strncmp(line, argv[2], ft_strlen(argv[2])) == SAME)
-			break ;
+		{
+			free(line);
+			line = NULL;
+			close(fd);
+			return ;
+		}
 		ft_putstr_fd(line, 1);
 		ft_putstr_fd("\n", 1);
 		free(line);
@@ -44,4 +49,5 @@ void	ft_input_heredoc(t_env *env, char *argv[])
 	free(line);
 	line = NULL;
 	close(fd);
+	ft_exit_with_error_message(env, "get_next_line failed");
 }
