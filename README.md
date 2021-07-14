@@ -22,6 +22,9 @@ and finally file2 is the file in which we write the output from the last command
 ```
 ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 ```
+```
+dsqdqsd
+```
 <p align=center>
   <img src="/screenshots/multiple_pipes.png" width="100%" />
 </p>
@@ -32,9 +35,6 @@ dsqdqsd
 <p align=center>
   <img src="/screenshots/multiple_pipes_and_heredoc.png" width="100%" />
 </p>
-```
-dsqdqsd
-```
 Which is equivalent to:
 ```
 cmd << LIMITER | cmd1 >> file
