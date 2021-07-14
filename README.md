@@ -27,6 +27,10 @@ and finally file2 is the file in which we write the output from the last command
 </p>
 
 * It supports '<<' and '>>' when the first parameter is "here_doc":
+```
+./pipex here_doc LIMITER cmd cmd1 file
+```
+
 <p align=center>
   <img src="/screenshots/multiple_pipes_and_heredoc.png" width="80%" />
 </p>
