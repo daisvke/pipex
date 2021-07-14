@@ -13,7 +13,7 @@ make
 ./pipex file1 cmd1 cmd2 file2
 ```
 Where file1 is the file from which we read, cmd1 and cmd2 are shell commands with their parameters,
-and finally file2 is the file in which we write the output of the last command.
+and finally file2 is the file in which we write the output from the last command.
 * The execution of the pipex program should do the same as the next shell command:
 ```
 < file1 cmd1 | cmd2 > file2
