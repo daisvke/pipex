@@ -23,7 +23,7 @@ and finally file2 is the file in which we write the output from the last command
 ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 ```
 <p align=center>
-  <img src="/screenshots/multiple_pipes.png" width="80%" />
+   <img src="/screenshots/multiple_pipes.png" width="40%" />
 </p>
 * It supports '<<' and '>>' when the first parameter is "here_doc":
 <p align=center>
