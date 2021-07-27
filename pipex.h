@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/14 15:21:01 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/27 23:36:34 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define FIRST_CMD_WHEN_HEREDOC 3
 # define ERROR 					-1
 # define SUCCESS				0
+# define CHILD					0
 # define SAME					0
 # define DIFFERENT				1
 
@@ -55,6 +56,11 @@ typedef struct s_env
 	bool	heredoc;
 }			t_env;
 
+void	ft_close(t_env *env, int fd);
+void	ft_dup2(t_env *env, int fd1, int fd2);
+pid_t	ft_fork(t_env *env);
+void	*ft_malloc(t_env *env, size_t num, size_t size);
+void	ft_pipe(t_env *env, int *fds);
 /*
 ** utils_fd
 */
@@ -93,7 +99,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 ** split
 */
 void	ft_free_split(char **array_of_pointers);
-char	**ft_split(t_env *env, char const *s, char c);
+char	**ft_split(char const *s, char c);
 
 /*
 ** heredoc

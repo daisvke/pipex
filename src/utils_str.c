@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:29:43 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:58:57 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/27 23:28:18 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3)
 	str2_len = ft_strlen(str2);
 	str3_len = ft_strlen(str3);
 	joined_len = str1_len + str2_len + str3_len;
-	joined = malloc((joined_len + 1) * sizeof(*joined));
-	if (!joined)
-		ft_exit_with_error_message(env, "join_three_str failed");
+	joined = ft_malloc(env, joined_len + 1, sizeof(*joined));
 	ft_memcpy(joined, str1, str1_len);
 	ft_memcpy(&joined[str1_len], str2, str2_len);
 	ft_memcpy(&joined[str1_len + str2_len], str3, str3_len);
