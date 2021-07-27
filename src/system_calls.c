@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 22:37:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/27 23:15:58 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/07/27 23:41:49 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,3 @@ void	*ft_malloc(t_env *env, size_t num, size_t size)
 		ft_exit_with_error_message(env, "malloc failed");
 	return (ptr);
 }
-		
