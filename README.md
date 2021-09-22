@@ -46,5 +46,13 @@ Which is equivalent to:
 cmd << LIMITER | cmd1 >> file
 ```
 
+* It can run commands given by an absolute path, such as:
+```
+./pipex test/text "/bin/ls" "cat -e" output
+```
 
+* Or by a relative path, such as:
+```
+./pipex test/text "./test/cmd.sh" "cat -e" output
+```
 
