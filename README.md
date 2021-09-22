@@ -21,6 +21,9 @@ and finally file2 is the file in which we write the output from the last command
 * It handles multiple pipes:
 ```
 ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
+
+Ex.:
+./pipex text cat "sed s/this/THIS/" "sed s/THAT/that/" "sed s/THIS_one/ThIs_OnE/" output
 ```
 <p align=center>
    <img src="/screenshots/multiple_pipes.png" width="80%" />
@@ -28,7 +31,10 @@ and finally file2 is the file in which we write the output from the last command
 
 * It supports '<<' and '>>' when the first parameter is "here_doc":
 ```
-./pipex here_doc LIMITER cmd cmd1 file
+./pipex here_doc LIMITER cmd cmd1 cmd2 cmd3 ... file
+
+Ex.:
+./pipex here_doc LIMITER cat "cat -e" "sed 's/e/E/g' 's/i/I/g'" "awk NR==1" output 
 ```
 
 <p align=center>
