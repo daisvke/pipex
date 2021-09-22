@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 04:45:57 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:35:31 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ void	ft_exit_and_print_usage(void)
 {
 	ft_putstr_fd(\
 		"Usage1: ./pipex [input file] [cmd1] [cmd2] [output file]\n" \
-		"Usage2: ./pipex here_doc [limiter] [cmd] [cmd1] [output file]\n", 2);
+		"Usage2: ./pipex here_doc [limiter] [cmd] [cmd1] [output file]\n", \
+		STDERR, OFF);
 	exit(EXIT_FAILURE);
 }
 
 void	ft_exit_with_error_message(t_env *env, char *error_message)
 {
-	ft_putstr_fd("pipex: ", 2);
-	ft_putendl_fd(error_message, 2);
+	ft_putstr_fd("pipex: ", STDERR, OFF);
+	ft_putstr_fd(error_message, STDERR, NEWLINE);
 	if (env)
 		free(env);
 	env = NULL;
@@ -32,8 +33,8 @@ void	ft_exit_with_error_message(t_env *env, char *error_message)
 
 void	ft_exit_when_cmd_not_found(t_env *env, char *cmd)
 {
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putendl_fd(cmd, 2);
+	ft_putstr_fd("pipex: command not found: ", STDERR, OFF);
+	ft_putstr_fd(cmd, STDERR, NEWLINE);
 	if (env)
 		free(env);
 	env = NULL;

@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 16:12:21 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:33:41 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 # include "get_next_line.h"
 
+# define STDERR					2
+# define NEWLINE				1
+# define NONE					0
 # define OK						1
 # define FIRST_CMD				2
 # define GET_FIRST_CMD			2
@@ -58,8 +61,7 @@ void	ft_pipe(t_env *env, int *fds);
 */
 int		ft_get_fd(t_env *env, char *argv[]);
 int		ft_open_file(char *file_name, int flags, int mod);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd, bool option);
 
 /*
 ** path

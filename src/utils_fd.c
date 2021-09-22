@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 13:12:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 03:52:13 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:29:09 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	ft_open_file(char *file_name, int flags, int mod)
 	if (fd == ERROR)
 	{
 		err_message = strerror(errno);
-		ft_putstr_fd("pipex: ", 2);
-		ft_putstr_fd(err_message, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(file_name, 2);
+		ft_putstr_fd("pipex: ", 2, NONE);
+		ft_putstr_fd(err_message, 2, NONE);
+		ft_putstr_fd(": ", 2, NONE);
+		ft_putstr_fd(file_name, 2, NEWLINE);
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
@@ -61,14 +61,12 @@ int	ft_get_fd(t_env *env, char *argv[])
 	return (fd);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd, bool option)
 {
 	if (s)
+	{
 		write(fd, s, ft_strlen(s));
-}
-
-void	ft_putendl_fd(char *s, int fd)
-{
-	ft_putstr_fd(s, fd);
-	write(fd, "\n", 1);
+		if (option == NEWLINE)
+			write(fd, "\n", 1);
+	}
 }

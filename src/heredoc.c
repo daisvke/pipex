@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 03:34:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/27 23:07:13 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:29:09 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	ft_input_heredoc(t_env *env, char *argv[])
 			ft_close(env, fd);
 			return ;
 		}
-		ft_putstr_fd(line, 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd(line, 1, NONE);
+		ft_putstr_fd("\n", 1, NONE);
 		free(line);
 	}
 	free(line);

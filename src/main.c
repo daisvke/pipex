@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 20:56:21 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:36:39 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 
 void	ft_save_data_from_child(t_env *env)
 {
+	wait(NULL);
 	ft_close(env, env->pipe_fds[1]);
 	env->fd_in = env->pipe_fds[0];
 	++env->pos;

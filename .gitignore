@@ -1,6 +1,11 @@
 # vim
 .*.c.swp
 .*.c.swo
+.*.c.swn
+.*.swo
+.*.swn
+.*.swp
+*.c~
 
 # Prerequisites
 *.d
