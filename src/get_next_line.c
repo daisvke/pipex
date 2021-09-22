@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../inc/pipex.h"
 
 size_t	gnl_get_char_pos(char *str, char c, bool increment)
 {

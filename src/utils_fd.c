@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../inc/pipex.h"
 
 int	ft_open_file(char *file_name, int flags, int mod)
 {

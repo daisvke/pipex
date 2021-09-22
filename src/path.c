@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../inc/pipex.h"
 
 bool	ft_check_access(char *path)
 {

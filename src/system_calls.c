@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../inc/pipex.h"
 
 void	ft_close(t_env *env, int fd)
 {

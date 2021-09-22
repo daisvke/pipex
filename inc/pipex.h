@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 04:13:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:12:21 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <errno.h>
 # include <stdbool.h>
 
+# include "get_next_line.h"
+
 # define OK						1
 # define FIRST_CMD				2
 # define GET_FIRST_CMD			2
@@ -36,29 +38,6 @@
 # define CHILD					0
 # define SAME					0
 # define DIFFERENT				1
-
-/*
-** get_next_line
-*/
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 			32
-# endif
-
-# define NOT_FOUND				0
-# define OFF					-1
-# define REACHED_EOF 			0
-# define LINE_READ				1
-
-typedef struct s_gnl
-{
-	int				fd;
-	char			*content;
-	char			buffer[BUFFER_SIZE + 1];
-	struct s_gnl	*next;
-}					t_gnl;	
-/*
-** end get_next_line
-*/
 
 typedef struct s_env
 {

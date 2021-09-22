@@ -6,11 +6,11 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/13 04:06:19 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 04:45:57 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../inc/pipex.h"
 
 void	ft_exit_and_print_usage(void)
 {

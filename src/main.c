@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../inc/pipex.h"
 
 void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 {

@@ -9,7 +9,6 @@ NAME		=	pipex
 SRC_DIR		=	src/
 SRC_FILES	=	exit.c \
 				get_next_line.c \
-				get_next_line_utils.c \
 				heredoc.c \
 				main.c \
 				path.c \
