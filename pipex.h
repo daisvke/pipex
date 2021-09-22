@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/27 23:36:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 04:13:34 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,22 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 			32
 # endif
-# define ERROR2 				-2
+
+# define NOT_FOUND				0
+# define OFF					-1
 # define REACHED_EOF 			0
-# define LINE_READ 				1
+# define LINE_READ				1
+
+typedef struct s_gnl
+{
+	int				fd;
+	char			*content;
+	char			buffer[BUFFER_SIZE + 1];
+	struct s_gnl	*next;
+}					t_gnl;	
+/*
+** end get_next_line
+*/
 
 typedef struct s_env
 {
@@ -74,8 +87,8 @@ void	ft_putstr_fd(char *s, int fd);
 */
 bool	ft_check_access(char *path);
 char	*ft_get_key_value_from_envp(char *envp[], char *key);
-char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], \
-	char *key, char *cmd);
+char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, \
+	char *cmd);
 
 /*
 ** exit

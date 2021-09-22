@@ -5,129 +5,125 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/10 04:30:55 by dtanigaw         ###   ########.fr       */
+/*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
+/*   Updated: 2021/09/22 04:08:37 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	ft_alloc(char **line)
-{
-	char	*s;
-	char	*p;
-
-	s = (char *)malloc(sizeof(*s));
-	if (!s)
-		return (ERROR);
-	p = s;
-	*p = '\0';
-	*line = s;
-	return (0);
-}
-
-void	ft_join(char **line, char **s1, char *s2)
+size_t	gnl_get_char_pos(char *str, char c, bool increment)
 {
 	size_t	i;
-	size_t	j;
-	char	*tmp_s1;
-	char	*tmp_s2;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		++i;
+	}
+	if (increment)
+		return (i);
+	else
+		return (NOT_FOUND);
+}
+
+char	*gnl_concatenate(char *s1, char *s2, int len, bool is_empty)
+{
 	char	*str;
+	size_t	i;
+	size_t	size;
 
-	tmp_s1 = *s1;
-	tmp_s2 = s2;
-	str = (char *)malloc(sizeof(*str) * (ft_gnl_strlen(*s1) \
-		+ ft_gnl_strlen(s2) + 1));
+	size = 0;
+	if (s1 && is_empty == false)
+		size += gnl_get_char_pos(s1, '\0', true);
+	if (s2)
+		size += gnl_get_char_pos(s2, '\0', true);
+	if (len >= 0 && (int)size > len)
+		size = len;
+	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
-		*line = NULL;
+		return (NULL);
 	i = 0;
-	j = 0;
-	while (tmp_s1[i])
-		str[j++] = tmp_s1[i++];
-	i = 0;
-	while (tmp_s2[i])
-		str[j++] = tmp_s2[i++];
-	str[j] = '\0';
-	*line = str;
-	free(tmp_s1);
+	while (is_empty == false && s1 && *s1 && i < size)
+		str[i++] = *s1++;
+	while (s2 && *s2 && i < size)
+		str[i++] = *s2++;
+	str[i] = '\0';
+	return (str);
 }
 
-int	ft_get_prev(char **prev, int *pos, char **line)
+int	gnl_fill_line(t_gnl *fd_data, int fd)
 {
+	int		ret;
 	char	*tmp;
 
-	*pos = ft_gnl_strchr(*prev, '\n');
-	if (*pos >= 0)
+	while (gnl_get_char_pos(fd_data->content, '\n', false) == NOT_FOUND)
 	{
-		free(*line);
-		*line = ft_strdup(*prev, *pos);
-		tmp = ft_strdup(*prev, ft_gnl_strlen(*prev));
-		if (!*line || !tmp)
-			*pos = ERROR2;
-		free(*prev);
-		*prev = ft_gnl_substr(tmp, *pos + 1, ft_gnl_strlen(tmp) - *pos);
-		free(tmp);
-		if (!prev)
-			*pos = ERROR2;
-		return (1);
+		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
+		if (ret < 0)
+			return (ERROR);
+		if (ret == 0)
+			break ;
+		fd_data->buffer[ret] = '\0';
+		tmp = gnl_concatenate(fd_data->content, fd_data->buffer, OFF, false);
+		if (!tmp)
+			return (ERROR);
+		free(fd_data->content);
+		fd_data->content = tmp;
 	}
-	free(*line);
-	*line = ft_strdup(*prev, ft_gnl_strlen(*prev));
-	if (!*line)
-		return (ERROR2);
-	free(*prev);
-	*prev = NULL;
-	return (0);
+	return (ret);
 }
 
-int	ft_set_line(char **line, char **prev, char *buf, int r)
+int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
 {
+	int		ret;
+	size_t	pos;
 	char	*tmp;
-	int		pos;
+	bool	is_empty;
 
-	pos = ft_gnl_strchr(buf, '\n');
-	if (pos >= 0)
-	{
-		tmp = ft_strdup(buf, pos);
-		ft_join(line, line, tmp);
-		if (!tmp || !*line)
-			*line = NULL;
-		free(tmp);
-		if (*line && pos < r - 1)
-		{
-			*prev = ft_strdup(&buf[pos + 1], r - pos - 1);
-			if (!*prev)
-				*line = NULL;
-		}
-		return (1);
-	}
-	return (0);
+	ret = gnl_fill_line(fd_data, fd);
+	if (ret == ERROR)
+		return (ERROR);
+	pos = 0;
+	if (fd_data->content)
+		pos = gnl_get_char_pos(fd_data->content, '\n', true);
+	is_empty = pos + 1 > gnl_get_char_pos(fd_data->content, '\0', true);
+	*line = gnl_concatenate(fd_data->content, NULL, pos, false);
+	if (!line)
+		return (ERROR);
+	tmp = gnl_concatenate(fd_data->content + pos + 1, NULL, \
+		gnl_get_char_pos(fd_data->content, '\0', true) - pos - 1, is_empty);
+	if (!tmp)
+		return (ERROR);
+	free(fd_data->content);
+	fd_data->content = tmp;
+	if (ret == REACHED_EOF && is_empty)
+		return (REACHED_EOF);
+	else
+		return (LINE_READ);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	static char	buf[BUFFER_SIZE + 1];
-	static char	*prev;
-	int			pos;
+	static t_gnl	*data;
+	t_gnl			*fd_data;
 
-	if (read(fd, buf, 0) < 0 || !line || BUFFER_SIZE <= 0 || ft_alloc(line) < 0)
+	if (BUFFER_SIZE <= 0 || !line)
 		return (ERROR);
-	pos = 1;
-	if (prev && ft_get_prev(&prev, &pos, line) && pos >= -1)
-		return (LINE_READ);
-	if (pos == ERROR2)
-		return (ERROR);
-	while (ft_gnl_bzero(buf, BUFFER_SIZE) && read(fd, buf, BUFFER_SIZE) != 0)
+	fd_data = data;
+	while (fd_data && fd_data->fd != fd)
+		fd_data = fd_data->next;
+	if (!fd_data)
 	{
-		if (!*line || read(fd, buf, 0) < 0)
+		fd_data = malloc(sizeof(t_gnl));
+		if (!fd_data)
 			return (ERROR);
-		buf[ft_gnl_strlen(buf)] = '\0';
-		if (ft_set_line(line, &prev, buf, ft_gnl_strlen(buf)) && *line)
-			return (LINE_READ);
-		if (!*line)
-			return (ERROR);
-		ft_join(line, line, buf);
-		ft_gnl_bzero(buf, BUFFER_SIZE);
+		fd_data->fd = fd;
+		fd_data->content = NULL;
+		fd_data->next = data;
+		data = fd_data;
 	}
-	return (REACHED_EOF);
+	return (gnl_execute_and_return(fd_data, line, fd));
 }
