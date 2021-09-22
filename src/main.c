@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/27 23:36:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 20:56:21 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 {
 	char	*path_to_cmd;
-	char	**cmd1;
+	char	**cmd;
 	int		fd;
 
 	ft_close(env, 1);
@@ -23,13 +23,13 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 	ft_dup2(env, env->fd_in, 0);
 	ft_close(env, env->pipe_fds[0]);
 	ft_close(env, env->pipe_fds[1]);
-	cmd1 = ft_split(argv[env->pos], ' ');
-	if (!cmd1)
+	cmd = ft_split(argv[env->pos], ' ');
+	if (!cmd)
 		ft_exit_with_error_message(env, "split failed");
 	fd = ft_get_fd(env, argv);
-	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", cmd1[0]);
-	if (path_to_cmd && execve(path_to_cmd, cmd1, envp) == ERROR)
-		ft_exit_when_cmd_not_found(env, cmd1[0]);
+	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", cmd[0]);
+	if (path_to_cmd && execve(path_to_cmd, cmd, envp) == ERROR)
+		ft_exit_when_cmd_not_found(env, cmd[0]);
 	ft_free_path_to_cmd(path_to_cmd);
 	ft_close(env, fd);
 }

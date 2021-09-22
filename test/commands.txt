@@ -1,0 +1,5 @@
+
+./pipex test/text cat "sed s/this/THIS/" "sed s/THAT/that/" "sed s/THIS_one/ThIs_OnE/" output
+
+./pipex here_doc LIMITER cat "cat -e" "sed s/e/E/g" "sed s/i/I/g" "awk NR==1" output
+

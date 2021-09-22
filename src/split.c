@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 02:03:33 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/27 23:36:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:30:34 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strdup(char *src, int size)
 	return (dest);
 }
 
-int	ft_split_iter(char **split, char *s, char c)
+int	ft_split_iter(char *split[], char *s, char c)
 {
 	int		i;
 	char	*start;
