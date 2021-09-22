@@ -23,7 +23,7 @@ and finally file2 is the file in which we write the output from the last command
 ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 
 Ex.:
-./pipex text cat "sed s/this/THIS/" "sed s/THAT/that/" "sed s/THIS_one/ThIs_OnE/" output
+./pipex test/text cat "sed s/this/THIS/" "sed s/THAT/that/" "sed s/THIS_one/ThIs_OnE/" output
 ```
 <p align=center>
    <img src="/screenshots/multiple_pipes.png" width="80%" />
