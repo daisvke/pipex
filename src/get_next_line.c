@@ -6,13 +6,13 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 04:08:37 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/23 04:28:06 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/get_next_line.h"
 
-size_t	gnl_get_char_pos(char *str, char c, bool increment)
+size_t	gnl_get_char_index(char *str, char c, bool increment)
 {
 	size_t	i;
 
@@ -37,9 +37,9 @@ char	*gnl_concatenate(char *s1, char *s2, int len, bool is_empty)
 
 	size = 0;
 	if (s1 && is_empty == false)
-		size += gnl_get_char_pos(s1, '\0', true);
+		size += gnl_get_char_index(s1, '\0', true);
 	if (s2)
-		size += gnl_get_char_pos(s2, '\0', true);
+		size += gnl_get_char_index(s2, '\0', true);
 	if (len >= 0 && (int)size > len)
 		size = len;
 	str = malloc(sizeof(char) * (size + 1));
@@ -54,51 +54,52 @@ char	*gnl_concatenate(char *s1, char *s2, int len, bool is_empty)
 	return (str);
 }
 
-int	gnl_fill_line(t_gnl *fd_data, int fd)
+int	gnl_get_line(char **data, int fd)
 {
-	int		ret;
-	char	*tmp;
+	static char	buffer[BUFFER_SIZE + 1];
+	int			ret;
+	char		*tmp;
 
-	while (gnl_get_char_pos(fd_data->content, '\n', false) == NOT_FOUND)
+	while (gnl_get_char_index(*data, '\n', false) == NOT_FOUND)
 	{
-		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
+		ret = read(fd, buffer, BUFFER_SIZE);
 		if (ret < 0)
 			return (ERROR);
 		if (ret == 0)
 			break ;
-		fd_data->buffer[ret] = '\0';
-		tmp = gnl_concatenate(fd_data->content, fd_data->buffer, OFF, false);
+		buffer[ret] = '\0';
+		tmp = gnl_concatenate(*data, buffer, OFF, false);
 		if (!tmp)
 			return (ERROR);
-		free(fd_data->content);
-		fd_data->content = tmp;
+		free(*data);
+		*data = tmp;
 	}
 	return (ret);
 }
 
-int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
+int	gnl_run_and_return(char **data, char **line, int fd)
 {
-	int		ret;
-	size_t	pos;
-	char	*tmp;
-	bool	is_empty;
+	int			ret;
+	size_t		index;
+	char		*tmp;
+	bool		is_empty;
 
-	ret = gnl_fill_line(fd_data, fd);
+	ret = gnl_get_line(data, fd);
 	if (ret == ERROR)
 		return (ERROR);
-	pos = 0;
-	if (fd_data->content)
-		pos = gnl_get_char_pos(fd_data->content, '\n', true);
-	is_empty = pos + 1 > gnl_get_char_pos(fd_data->content, '\0', true);
-	*line = gnl_concatenate(fd_data->content, NULL, pos, false);
+	index = 0;
+	if (*data)
+		index = gnl_get_char_index(*data, '\n', true);
+	is_empty = index + 1 > gnl_get_char_index(*data, '\0', true);
+	*line = gnl_concatenate(*data, NULL, index, false);
 	if (!line)
 		return (ERROR);
-	tmp = gnl_concatenate(fd_data->content + pos + 1, NULL, \
-		gnl_get_char_pos(fd_data->content, '\0', true) - pos - 1, is_empty);
+	tmp = gnl_concatenate(*data + index + 1, NULL, \
+		gnl_get_char_index(*data, '\0', true) - index - 1, is_empty);
 	if (!tmp)
 		return (ERROR);
-	free(fd_data->content);
-	fd_data->content = tmp;
+	free(*data);
+	*data = tmp;
 	if (ret == REACHED_EOF && is_empty)
 		return (REACHED_EOF);
 	else
@@ -107,23 +108,9 @@ int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
 
 int	get_next_line(int fd, char **line)
 {
-	static t_gnl	*data;
-	t_gnl			*fd_data;
+	static char	*data;
 
 	if (BUFFER_SIZE <= 0 || !line)
 		return (ERROR);
-	fd_data = data;
-	while (fd_data && fd_data->fd != fd)
-		fd_data = fd_data->next;
-	if (!fd_data)
-	{
-		fd_data = malloc(sizeof(t_gnl));
-		if (!fd_data)
-			return (ERROR);
-		fd_data->fd = fd;
-		fd_data->content = NULL;
-		fd_data->next = data;
-		data = fd_data;
-	}
-	return (gnl_execute_and_return(fd_data, line, fd));
+	return (gnl_run_and_return(&data, line, fd));
 }
