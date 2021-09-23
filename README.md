@@ -34,7 +34,7 @@ Ex.:
 ./pipex here_doc LIMITER cmd cmd1 cmd2 cmd3 ... file
 
 Ex.:
-./pipex here_doc LIMITER cat "cat -e" "sed 's/e/E/g' 's/i/I/g'" "awk NR==1" output 
+./pipex here_doc LIMITER cat "cat -e" "sed s/e/E/g" "sed s/i/I/g" "awk NR==1" output 
 ```
 
 <p align=center>
