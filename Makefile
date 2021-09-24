@@ -1,5 +1,5 @@
 CC			=	clang $(FLAGS)
-FLAGS		=	-Wall -Wextra -Werror -g $(MEM)
+FLAGS		=	-Wall -Wextra -Werror -g #$(MEM)
 MEM			=	-fsanitize=address
 
 RM			=	rm -rf
@@ -12,6 +12,7 @@ SRC_FILES	=	exit.c \
 				heredoc.c \
 				main.c \
 				path.c \
+				pipex.c \
 				split.c \
 				system_calls.c \
 				utils_fd.c \

@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 21:33:41 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/24 06:24:59 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,33 @@
 
 typedef struct s_env
 {
-	int		pipe_fds[2];
+	int		**pipe_fds;
 	int		pos;
+	int		cmd_nbr;
+	int		i;
 	int		argc;
 	int		fd_in;
+	char	**cmd;
 	bool	heredoc;
 }			t_env;
 
+void	ft_close_and_free_pipe_fds(t_env *env);
+void	ft_pipex(char *argv[], char *envp[], t_env *env);
+
+/*
+** system calls
+*/
 void	ft_close(t_env *env, int fd);
 void	ft_dup2(t_env *env, int fd1, int fd2);
 pid_t	ft_fork(t_env *env);
 void	*ft_malloc(t_env *env, size_t num, size_t size);
 void	ft_pipe(t_env *env, int *fds);
+
 /*
 ** utils_fd
 */
 int		ft_get_fd(t_env *env, char *argv[]);
-int		ft_open_file(char *file_name, int flags, int mod);
+int		ft_open_file(t_env *env, char *file_name, int flags, int mod);
 void	ft_putstr_fd(char *s, int fd, bool option);
 
 /*
@@ -74,9 +84,9 @@ char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, \
 /*
 ** exit
 */
-void	ft_exit_and_print_usage(void);
+void	ft_exit_and_print_usage(t_env *env);
+void	ft_exit_failure(t_env *env);
 void	ft_exit_when_cmd_not_found(t_env *env, char *cmd);
-void	ft_exit_when_error_occurs(t_env *env, char *error_message);
 void	ft_exit_with_error_message(t_env *env, char *error_message);
 void	ft_free_path_to_cmd(char *path_to_cmd);
 
@@ -100,15 +110,5 @@ char	**ft_split(char const *s, char c);
 */
 int		ft_get_open_flags(t_env *env);
 void	ft_input_heredoc(t_env *env, char *argv[]);
-
-/*
-** get_next_line
-*/
-int		get_next_line(int fd, char **line);
-int		ft_gnl_bzero(char *s, size_t n);
-int		ft_gnl_strchr(char *s, char c);
-size_t	ft_gnl_strlen(char *s);
-char	*ft_gnl_substr(char *s, size_t start, size_t len);
-char	*ft_strdup(char *src, int size);
 
 #endif

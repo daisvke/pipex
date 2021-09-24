@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:29:43 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/07/27 23:28:18 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:11:06 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,24 @@
 
 void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size)
 {
-	size_t	pointer;
+	size_t	i;
 
-	pointer = 0;
-	while (pointer < arr_size)
+	i = 0;
+	if (arr_size != 0)
 	{
-		free(array_of_pointers[pointer]);
-		++pointer;
+		while (i < arr_size)
+		{
+			free(array_of_pointers[i]);
+			++i;
+		}
+	}
+	else
+	{
+		while (array_of_pointers[i])
+		{
+			free(array_of_pointers[i]);
+			++i;
+		}
 	}
 	free(array_of_pointers);
 	array_of_pointers = NULL;
