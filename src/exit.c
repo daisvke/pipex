@@ -37,14 +37,10 @@ void	ft_free_pipe_fds(t_env *env)
 	int	size;
 	int	i;
 
-//	size = env->i;
 	size = env->cmd_nbr;
 	i = 0;
 	while (i < size)
 	{
-//		if (env->pipe_fds[i][0])
-//		if (env->pipe_fds[i][1])
-//			ft_close(env, env->pipe_fds[i][1]);
 		free(env->pipe_fds[i]);
 		++i;
 	}

@@ -75,6 +75,8 @@ int	ft_pipex(char *argv[], char *envp[], t_env *env)
 		ft_input_heredoc(env, argv);
 	while (env->pos < env->argc - 1)
 	{
+        if (env->i > 0)
+	        ft_close(env, env->pipe_fds[env->i - 1][0]);
 		ft_pipe(env, env->pipe_fds[env->i]);
 		pid = ft_fork(env);
 		if (pid == CHILD)
@@ -87,6 +89,6 @@ int	ft_pipex(char *argv[], char *envp[], t_env *env)
 	err = ft_wait_for_all_children(env, pid);
 	if (env->heredoc)
 		unlink("heredoc_output");
-	ft_close_and_free_pipe_fds(env);
+	ft_free_pipe_fds(env);
 	return (err);
 }
