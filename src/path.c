@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 01:34:45 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 18:39:34 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/26 05:43:40 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,28 @@ char	*ft_get_key_value_from_envp(char *envp[], char *key)
 	return (NULL);
 }
 
+static char	**ft_get_path(char *envp[], t_env *env, char *key)
+{
+	char	*paths_envp;
+	char	**paths_envp_split;
+
+	paths_envp = ft_get_key_value_from_envp(envp, key);
+	paths_envp_split = ft_split(paths_envp, ':');
+	if (!paths_envp_split)
+		ft_exit_with_error_message(env, "split failed");
+	return (paths_envp_split);
+}
+
 char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], \
 	char *key, char *cmd)
 {
-	char	*paths_envp;
 	char	**paths_envp_split;
 	char	*cmd_path_at_i;
 	size_t	i;
 
 	if (ft_check_access(cmd) == OK)
 		return (cmd);
-	paths_envp = ft_get_key_value_from_envp(envp, key);
-	paths_envp_split = ft_split(paths_envp, ':');
-	if (!paths_envp_split)
-		ft_exit_with_error_message(env, "split failed");
+	paths_envp_split = ft_get_path(envp, env, key);
 	i = 0;
 	cmd_path_at_i = NULL;
 	while (paths_envp_split[i])
@@ -57,8 +65,11 @@ char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], \
 		if (ft_check_access(cmd_path_at_i) == OK)
 			break ;
 		free(cmd_path_at_i);
+		cmd_path_at_i = NULL;
 		++i;
 	}
+	if (cmd_path_at_i == NULL)
+		cmd_path_at_i = cmd;
 	ft_free_split(paths_envp_split);
 	paths_envp_split = NULL;
 	return (cmd_path_at_i);

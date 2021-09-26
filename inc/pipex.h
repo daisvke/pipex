@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/24 06:24:59 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/26 05:30:06 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_env
 }			t_env;
 
 void	ft_close_and_free_pipe_fds(t_env *env);
-void	ft_pipex(char *argv[], char *envp[], t_env *env);
+int		ft_pipex(char *argv[], char *envp[], t_env *env);
 
 /*
 ** system calls
@@ -86,7 +86,7 @@ char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, \
 */
 void	ft_exit_and_print_usage(t_env *env);
 void	ft_exit_failure(t_env *env);
-void	ft_exit_when_cmd_not_found(t_env *env, char *cmd);
+void	ft_exit_when_cmd_not_found(t_env *env, char *cmd, char *path_to_cmd);
 void	ft_exit_with_error_message(t_env *env, char *error_message);
 void	ft_free_path_to_cmd(char *path_to_cmd);
 

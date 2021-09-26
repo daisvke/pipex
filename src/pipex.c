@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 04:39:25 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/24 16:29:50 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/26 05:30:06 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 	if (!env->cmd)
 		ft_exit_with_error_message(env, "split failed");
 	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", env->cmd[0]);
-	if (path_to_cmd && execve(path_to_cmd, env->cmd, envp) == ERROR)
-		ft_exit_when_cmd_not_found(env, env->cmd[0]);
-	ft_free_array_of_pointers(env->cmd, 0);
-	ft_free_path_to_cmd(path_to_cmd);
-	ft_close(env, fd);
+	if (execve(path_to_cmd, env->cmd, envp) == ERROR)
+		ft_exit_when_cmd_not_found(env, env->cmd[0], path_to_cmd);
+//	ft_free_array_of_pointers(env->cmd, 0);
+//	ft_free_path_to_cmd(path_to_cmd);
+//	ft_close(env, fd);
 }
 
 void	ft_save_data_from_child(t_env *env)
@@ -41,23 +41,33 @@ void	ft_save_data_from_child(t_env *env)
 	++env->i;
 }
 
-void	ft_wait_for_all_children(t_env *env)
+int	ft_wait_for_all_children(t_env *env)
 {
 	int	i;
 	int	size;
+	int	wstatus;
+	int	status_code;
 
 	i = 0;
 	size = env->cmd_nbr;
 	while (i < size)
 	{
-		wait(NULL);
+		wait(&wstatus);
+		if (WIFEXITED(wstatus))
+		{
+			status_code = WEXITSTATUS(wstatus);
+			if (status_code != 0)
+				return (status_code);
+		}
 		++i;
 	}
+	return (0);
 }
 
-void	ft_pipex(char *argv[], char *envp[], t_env *env)
+int	ft_pipex(char *argv[], char *envp[], t_env *env)
 {
 	pid_t	pid;
+	int		err;
 
 	env->pos += GET_FIRST_CMD;
 	if (env->heredoc)
@@ -69,12 +79,13 @@ void	ft_pipex(char *argv[], char *envp[], t_env *env)
 		if (pid == CHILD)
 		{
 			ft_spawn_child_to_execute_cmd(env, argv, envp);
-			return ;
+			exit(EXIT_SUCCESS);
 		}
 		ft_save_data_from_child(env);
 	}
-	ft_wait_for_all_children(env);
+	err = ft_wait_for_all_children(env);
 	if (env->heredoc)
 		unlink("heredoc_output");
 	ft_close_and_free_pipe_fds(env);
+	return (err);
 }
