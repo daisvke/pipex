@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/26 04:29:46 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/26 20:57:54 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_env	env;
 	int		res;
 
+	envp = NULL;
 	if (argc < 5)
 		ft_exit_and_print_usage(&env);
 	ft_init_env(argc, argv, &env);

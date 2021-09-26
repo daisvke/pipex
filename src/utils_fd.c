@@ -24,10 +24,10 @@ int	ft_open_file(t_env *env, char *file_name, int flags, int mod)
 	if (fd == ERROR)
 	{
 		err_message = strerror(errno);
-		ft_putstr_fd("pipex: ", STDERR, NONE);
-		ft_putstr_fd(err_message, STDERR, NONE);
-		ft_putstr_fd(": ", STDERR, NONE);
-		ft_putstr_fd(file_name, STDERR, NEWLINE);
+		ft_putstr_fd("pipex: ", STDERR_FILENO, NONE);
+		ft_putstr_fd(err_message, STDERR_FILENO, NONE);
+		ft_putstr_fd(": ", STDERR_FILENO, NONE);
+		ft_putstr_fd(file_name, STDERR_FILENO, NEWLINE);
 		ft_exit_failure(env);
 	}
 	return (fd);
