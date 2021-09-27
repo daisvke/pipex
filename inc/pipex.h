@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/26 20:54:42 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 05:50:43 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,24 @@
 
 # include "get_next_line.h"
 
+# define ERR_MAX				8
+
 # define NEWLINE				1
 # define NONE					0
+
+# define CHILD					0
 # define OK						1
+# define INPUT_FILE				1
+# define NO_INPUT_FILE			0
+
 # define FIRST_CMD				2
 # define GET_FIRST_CMD			2
 # define GET_LAST_CMD			2
-# define INPUT_FILE				1
-# define NO_INPUT_FILE			0
 # define FIRST_CMD_WHEN_HEREDOC 3
+
 # define ERROR 					-1
 # define SUCCESS				0
-# define CHILD					0
+
 # define SAME					0
 # define DIFFERENT				1
 
@@ -83,11 +89,9 @@ char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, \
 /*
 ** exit
 */
-void	ft_exit_and_print_usage(t_env *env);
-void	ft_exit_failure(t_env *env);
 void	ft_exit_when_cmd_not_found(t_env *env, char *cmd);
-void	ft_exit_with_error_message(t_env *env, char *error_message);
-void	ft_free_path_to_cmd(char *path_to_cmd);
+void	ft_exit_with_error_message(t_env *env, int err_code);
+void	ft_free_pipe_fds(t_env *env);
 
 /*
 ** utils_str

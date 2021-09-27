@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 13:12:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/24 06:37:39 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 05:48:47 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	ft_open_file(t_env *env, char *file_name, int flags, int mod)
 		ft_putstr_fd(err_message, STDERR_FILENO, NONE);
 		ft_putstr_fd(": ", STDERR_FILENO, NONE);
 		ft_putstr_fd(file_name, STDERR_FILENO, NEWLINE);
-		ft_exit_failure(env);
+		ft_free_pipe_fds(env);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
@@ -44,19 +45,19 @@ int	ft_get_fd(t_env *env, char *argv[])
 	{
 		fd = ft_open_file(env, "heredoc_output", O_RDONLY, 0);
 		if (dup2(fd, 0) == ERROR)
-			ft_exit_with_error_message(env, "dup2 failed");
+			ft_exit_with_error_message(env, 4);
 	}
 	else if (env->pos == FIRST_CMD)
 	{
 		fd = ft_open_file(env, argv[INPUT_FILE], O_RDONLY, 0);
 		if (dup2(fd, 0) == ERROR)
-			ft_exit_with_error_message(env, "dup2 failed");
+			ft_exit_with_error_message(env, 4);
 	}
 	else if (env->pos == env->argc - GET_LAST_CMD)
 	{
 		fd = ft_open_file(env, argv[env->argc - 1], open_flags, 0664);
 		if (dup2(fd, 1) == ERROR)
-			ft_exit_with_error_message(env, "dup2 failed");
+			ft_exit_with_error_message(env, 4);
 	}
 	return (fd);
 }

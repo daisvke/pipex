@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:29:43 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/23 21:11:06 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 05:20:33 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3)
 	size_t	str3_len;
 
 	if (!str1 || !str2 || !str3)
-		ft_exit_with_error_message(env, "permission denied:");
+		ft_exit_with_error_message(env, 8);
 	str1_len = ft_strlen(str1);
 	str2_len = ft_strlen(str2);
 	str3_len = ft_strlen(str3);

@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 04:39:25 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/26 20:42:02 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 05:17:57 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,20 @@ void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
 
 	ft_close(env, env->pipe_fds[env->i][0]);
 	ft_dup2(env, env->fd_in, STDIN_FILENO);
-//	ft_close(env, env->fd_in);
 	ft_dup2(env, env->pipe_fds[env->i][1], STDOUT_FILENO);
-//	ft_close(env, env->pipe_fds[env->i][1]);
 	fd = ft_get_fd(env, argv);
 	env->cmd = ft_split(argv[env->pos], ' ');
 	if (!env->cmd)
-		ft_exit_with_error_message(env, "split failed");
+		ft_exit_with_error_message(env, 7);
 	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", env->cmd[0]);
 	if (execve(path_to_cmd, env->cmd, envp) == ERROR)
 		ft_exit_when_cmd_not_found(env, env->cmd[0]);
-//	ft_free_array_of_pointers(env->cmd, 0);
-//	ft_free_path_to_cmd(path_to_cmd);
-//	ft_close(env, fd);
 }
 
 void	ft_save_data_from_child(t_env *env)
 {
+	if (env->i > 0)
+		ft_close(env, env->pipe_fds[env->i - 1][0]);
 	ft_close(env, env->pipe_fds[env->i][1]);
 	env->fd_in = env->pipe_fds[env->i][0];
 	++env->pos;
@@ -75,8 +72,6 @@ int	ft_pipex(char *argv[], char *envp[], t_env *env)
 		ft_input_heredoc(env, argv);
 	while (env->pos < env->argc - 1)
 	{
-        if (env->i > 0)
-	        ft_close(env, env->pipe_fds[env->i - 1][0]);
 		ft_pipe(env, env->pipe_fds[env->i]);
 		pid = ft_fork(env);
 		if (pid == CHILD)

@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 03:34:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/23 22:19:05 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 05:48:47 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	ft_input_heredoc(t_env *env, char *argv[])
 	}
 	line = NULL;
 	ft_close(env, fd);
-	ft_exit_with_error_message(env, "get_next_line failed");
+	ft_exit_with_error_message(env, 6);
 }

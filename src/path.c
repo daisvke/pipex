@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 01:34:45 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/26 05:43:40 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 05:17:27 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**ft_get_path(char *envp[], t_env *env, char *key)
 	paths_envp = ft_get_key_value_from_envp(envp, key);
 	paths_envp_split = ft_split(paths_envp, ':');
 	if (!paths_envp_split)
-		ft_exit_with_error_message(env, "split failed");
+		ft_exit_with_error_message(env, 7);
 	return (paths_envp_split);
 }
 
