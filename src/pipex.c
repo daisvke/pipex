@@ -12,34 +12,34 @@
 
 #include "../inc/pipex.h"
 
-void	ft_spawn_child_to_execute_cmd(t_env *env, char *argv[], char *envp[])
+void	ppx_spawn_child_to_execute_cmd(t_ppx *env, char *argv[], char *envp[])
 {
 	char	*path_to_cmd;
 	int		fd;
 
-	ft_close(env, env->pipe_fds[env->i][0]);
-	ft_dup2(env, env->fd_in, STDIN_FILENO);
-	ft_dup2(env, env->pipe_fds[env->i][1], STDOUT_FILENO);
-	fd = ft_get_fd(env, argv);
-	env->cmd = ft_split(argv[env->pos], ' ');
+	ppx_close(env, env->pipe_fds[env->i][0]);
+	ppx_dup2(env, env->fd_in, STDIN_FILENO);
+	ppx_dup2(env, env->pipe_fds[env->i][1], STDOUT_FILENO);
+	fd = ppx_get_fd(env, argv);
+	env->cmd = ppx_split(argv[env->pos], ' ');
 	if (!env->cmd)
-		ft_exit_with_error_message(env, 7);
-	path_to_cmd = ft_get_the_right_cmd_path(env, envp, "PATH=", env->cmd[0]);
+		ppx_exit_with_error_message(env, 7);
+	path_to_cmd = ppx_get_the_right_cmd_path(env, envp, "PATH=", env->cmd[0]);
 	if (execve(path_to_cmd, env->cmd, envp) == ERROR)
-		ft_exit_when_cmd_not_found(env, env->cmd[0]);
+		ppx_exit_when_cmd_not_found(env, env->cmd[0]);
 }
 
-void	ft_save_data_from_child(t_env *env)
+void	ppx_save_data_from_child(t_ppx *env)
 {
 	if (env->i > 0)
-		ft_close(env, env->pipe_fds[env->i - 1][0]);
-	ft_close(env, env->pipe_fds[env->i][1]);
+		ppx_close(env, env->pipe_fds[env->i - 1][0]);
+	ppx_close(env, env->pipe_fds[env->i][1]);
 	env->fd_in = env->pipe_fds[env->i][0];
 	++env->pos;
 	++env->i;
 }
 
-int	ft_wait_for_all_children(t_env *env, pid_t pid)
+int	ppx_wait_for_all_children(t_ppx *env, pid_t pid)
 {
 	int	i;
 	int	size;
@@ -62,28 +62,28 @@ int	ft_wait_for_all_children(t_env *env, pid_t pid)
 	return (0);
 }
 
-int	ft_pipex(char *argv[], char *envp[], t_env *env)
+int	ppx_pipex(char *argv[], char *envp[], t_ppx *env)
 {
 	pid_t	pid;
 	int		err;
 
 	env->pos += GET_FIRST_CMD;
 	if (env->heredoc)
-		ft_input_heredoc(env, argv);
+		ppx_input_heredoc(env, argv);
 	while (env->pos < env->argc - 1)
 	{
-		ft_pipe(env, env->pipe_fds[env->i]);
-		pid = ft_fork(env);
+		ppx_pipe(env, env->pipe_fds[env->i]);
+		pid = ppx_fork(env);
 		if (pid == CHILD)
 		{
-			ft_spawn_child_to_execute_cmd(env, argv, envp);
+			ppx_spawn_child_to_execute_cmd(env, argv, envp);
 			exit(EXIT_SUCCESS);
 		}
-		ft_save_data_from_child(env);
+		ppx_save_data_from_child(env);
 	}
-	err = ft_wait_for_all_children(env, pid);
+	err = ppx_wait_for_all_children(env, pid);
 	if (env->heredoc)
 		unlink("heredoc_output");
-	ft_free_pipe_fds(env);
+	ppx_free_pipe_fds(env);
 	return (err);
 }

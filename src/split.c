@@ -12,7 +12,7 @@
 
 #include "../inc/pipex.h"
 
-void	ft_free_split(char *split[])
+void	ppx_free_split(char *split[])
 {
 	size_t	i;
 
@@ -26,7 +26,7 @@ void	ft_free_split(char *split[])
 	split = NULL;
 }
 
-char	*ft_strdup(char *src, int size)
+char	*ppx_strdup(char *src, int size)
 {
 	int		i;
 	char	*dest;
@@ -44,7 +44,7 @@ char	*ft_strdup(char *src, int size)
 	return (dest);
 }
 
-int	ft_split_iter(char *split[], char *s, char c)
+int	ppx_split_iter(char *split[], char *s, char c)
 {
 	int		i;
 	char	*start;
@@ -59,10 +59,10 @@ int	ft_split_iter(char *split[], char *s, char c)
 		start = s;
 		while (*s != c && *s)
 			s++;
-		split[i] = ft_strdup(start, s - start);
+		split[i] = ppx_strdup(start, s - start);
 		if (!split[i])
 		{
-			ft_free_array_of_pointers(split, i);
+			ppx_free_array_of_pointers(split, i);
 			return (ERROR);
 		}
 		i++;
@@ -71,7 +71,7 @@ int	ft_split_iter(char *split[], char *s, char c)
 	return (0);
 }
 
-int	ft_wordcount(char *s, int sep)
+int	ppx_wordcount(char *s, int sep)
 {
 	int	wc;
 
@@ -89,15 +89,15 @@ int	ft_wordcount(char *s, int sep)
 	return (wc);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ppx_split(char const *s, char c)
 {
 	int		res;
 	char	**split;
 
-	split = (char **)malloc(sizeof(*split) * (ft_wordcount((char *)s, c) + 1));
+	split = (char **)malloc(sizeof(*split) * (ppx_wordcount((char *)s, c) + 1));
 	if (!split)
 		return (NULL);
-	res = ft_split_iter(split, (char *)s, c);
+	res = ppx_split_iter(split, (char *)s, c);
 	if (res == ERROR)
 		return (NULL);
 	return (split);

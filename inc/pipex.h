@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/27 05:50:43 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 06:00:04 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define SAME					0
 # define DIFFERENT				1
 
-typedef struct s_env
+typedef struct s_ppx
 {
 	int		**pipe_fds;
 	int		pos;
@@ -57,61 +57,61 @@ typedef struct s_env
 	int		fd_in;
 	char	**cmd;
 	bool	heredoc;
-}			t_env;
+}			t_ppx;
 
-void	ft_close_and_free_pipe_fds(t_env *env);
-int		ft_pipex(char *argv[], char *envp[], t_env *env);
+void	ppx_close_and_free_pipe_fds(t_ppx *env);
+int		ppx_pipex(char *argv[], char *envp[], t_ppx *env);
 
 /*
 ** system calls
 */
-void	ft_close(t_env *env, int fd);
-void	ft_dup2(t_env *env, int fd1, int fd2);
-pid_t	ft_fork(t_env *env);
-void	*ft_malloc(t_env *env, size_t num, size_t size);
-void	ft_pipe(t_env *env, int *fds);
+void	ppx_close(t_ppx *env, int fd);
+void	ppx_dup2(t_ppx *env, int fd1, int fd2);
+pid_t	ppx_fork(t_ppx *env);
+void	*ppx_malloc(t_ppx *env, size_t num, size_t size);
+void	ppx_pipe(t_ppx *env, int *fds);
 
 /*
 ** utils_fd
 */
-int		ft_get_fd(t_env *env, char *argv[]);
-int		ft_open_file(t_env *env, char *file_name, int flags, int mod);
-void	ft_putstr_fd(char *s, int fd, bool option);
+int		ppx_get_fd(t_ppx *env, char *argv[]);
+int		ppx_open_file(t_ppx *env, char *file_name, int flags, int mod);
+void	ppx_putstr_fd(char *s, int fd, bool option);
 
 /*
 ** path
 */
-bool	ft_check_access(char *path);
-char	*ft_get_key_value_from_envp(char *envp[], char *key);
-char	*ft_get_the_right_cmd_path(t_env *env, char *envp[], char *key, \
+bool	ppx_check_access(char *path);
+char	*ppx_get_key_value_from_envp(char *envp[], char *key);
+char	*ppx_get_the_right_cmd_path(t_ppx *env, char *envp[], char *key, \
 	char *cmd);
 
 /*
 ** exit
 */
-void	ft_exit_when_cmd_not_found(t_env *env, char *cmd);
-void	ft_exit_with_error_message(t_env *env, int err_code);
-void	ft_free_pipe_fds(t_env *env);
+void	ppx_exit_when_cmd_not_found(t_ppx *env, char *cmd);
+void	ppx_exit_with_error_message(t_ppx *env, int err_code);
+void	ppx_free_pipe_fds(t_ppx *env);
 
 /*
 ** utils_str
 */
-void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size);
-char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	ppx_free_array_of_pointers(char **array_of_pointers, size_t arr_size);
+char	*ppx_join_three_str(t_ppx *env, char *str1, char *str2, char *str3);
+size_t	ppx_strlen(const char *s);
+int		ppx_strncmp(const char *s1, const char *s2, size_t n);
+void	*ppx_memcpy(void *dest, const void *src, size_t n);
 
 /*
 ** split
 */
-void	ft_free_split(char **array_of_pointers);
-char	**ft_split(char const *s, char c);
+void	ppx_free_split(char **array_of_pointers);
+char	**ppx_split(char const *s, char c);
 
 /*
 ** heredoc
 */
-int		ft_get_open_flags(t_env *env);
-void	ft_input_heredoc(t_env *env, char *argv[]);
+int		ppx_get_open_flags(t_ppx *env);
+void	ppx_input_heredoc(t_ppx *env, char *argv[]);
 
 #endif

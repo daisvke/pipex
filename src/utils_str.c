@@ -12,7 +12,7 @@
 
 #include "../inc/pipex.h"
 
-void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size)
+void	ppx_free_array_of_pointers(char **array_of_pointers, size_t arr_size)
 {
 	size_t	i;
 
@@ -37,7 +37,7 @@ void	ft_free_array_of_pointers(char **array_of_pointers, size_t arr_size)
 	array_of_pointers = NULL;
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ppx_strlen(const char *s)
 {
 	size_t	i;
 
@@ -47,7 +47,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ppx_memcpy(void *dest, const void *src, size_t n)
 {
 	char		*d;
 	const char	*s;
@@ -61,7 +61,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3)
+char	*ppx_join_three_str(t_ppx *env, char *str1, char *str2, char *str3)
 {
 	char	*joined;
 	size_t	joined_len;
@@ -70,20 +70,20 @@ char	*ft_join_three_str(t_env *env, char *str1, char *str2, char *str3)
 	size_t	str3_len;
 
 	if (!str1 || !str2 || !str3)
-		ft_exit_with_error_message(env, 8);
-	str1_len = ft_strlen(str1);
-	str2_len = ft_strlen(str2);
-	str3_len = ft_strlen(str3);
+		ppx_exit_with_error_message(env, 8);
+	str1_len = ppx_strlen(str1);
+	str2_len = ppx_strlen(str2);
+	str3_len = ppx_strlen(str3);
 	joined_len = str1_len + str2_len + str3_len;
-	joined = ft_malloc(env, joined_len + 1, sizeof(*joined));
-	ft_memcpy(joined, str1, str1_len);
-	ft_memcpy(&joined[str1_len], str2, str2_len);
-	ft_memcpy(&joined[str1_len + str2_len], str3, str3_len);
+	joined = ppx_malloc(env, joined_len + 1, sizeof(*joined));
+	ppx_memcpy(joined, str1, str1_len);
+	ppx_memcpy(&joined[str1_len], str2, str2_len);
+	ppx_memcpy(&joined[str1_len + str2_len], str3, str3_len);
 	joined[joined_len] = '\0';
 	return (joined);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ppx_strncmp(const char *s1, const char *s2, size_t n)
 {
 	if (s1 && s2)
 	{

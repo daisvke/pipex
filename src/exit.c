@@ -12,7 +12,7 @@
 
 #include "../inc/pipex.h"
 
-void	ft_free_pipe_fds(t_env *env)
+void	ppx_free_pipe_fds(t_ppx *env)
 {
 	int	size;
 	int	i;
@@ -28,7 +28,7 @@ void	ft_free_pipe_fds(t_env *env)
 		free(env->pipe_fds);
 }
 
-char	**ft_get_array_of_error_messages(char *errors[])
+char	**ppx_get_array_of_error_messages(char *errors[])
 {
 	errors[0] = "\nUsage1: ./pipex [input file] [cmd1] [cmd2] [output file]\n" \
 		"Usage2: ./pipex here_doc [limiter] [cmd] [cmd1] [output file]\n";
@@ -43,32 +43,32 @@ char	**ft_get_array_of_error_messages(char *errors[])
 	return (errors);
 }
 
-char	*ft_get_err_message_from_err_code(int err_code)
+char	*ppx_get_err_message_from_err_code(int err_code)
 {
 	char	*err_messages[ERR_MAX + 1];
 
-	ft_get_array_of_error_messages(err_messages);
+	ppx_get_array_of_error_messages(err_messages);
 	return (err_messages[err_code]);
 }
 
-void	ft_exit_with_error_message(t_env *env, int err_code)
+void	ppx_exit_with_error_message(t_ppx *env, int err_code)
 {
 	char	*err_message;
 
 	err_message = NULL;
-	err_message = ft_get_err_message_from_err_code(err_code);
-	ft_putstr_fd("\npipex: ", STDERR_FILENO, NONE);
-	ft_putstr_fd(err_message, STDERR_FILENO, NEWLINE);
+	err_message = ppx_get_err_message_from_err_code(err_code);
+	ppx_putstr_fd("\npipex: ", STDERR_FILENO, NONE);
+	ppx_putstr_fd(err_message, STDERR_FILENO, NEWLINE);
 	if (err_code != 0)
-		ft_free_pipe_fds(env);
+		ppx_free_pipe_fds(env);
 	exit(EXIT_FAILURE);
 }
 
-void	ft_exit_when_cmd_not_found(t_env *env, char *cmd)
+void	ppx_exit_when_cmd_not_found(t_ppx *env, char *cmd)
 {
-	ft_putstr_fd("pipex: command not found: ", STDERR_FILENO, NONE);
-	ft_putstr_fd(cmd, STDERR_FILENO, NEWLINE);
-	ft_free_array_of_pointers(env->cmd, 0);
-	ft_free_pipe_fds(env);
+	ppx_putstr_fd("pipex: command not found: ", STDERR_FILENO, NONE);
+	ppx_putstr_fd(cmd, STDERR_FILENO, NEWLINE);
+	ppx_free_array_of_pointers(env->cmd, 0);
+	ppx_free_pipe_fds(env);
 	exit(EXIT_FAILURE);
 }

@@ -12,7 +12,7 @@
 
 #include "../inc/pipex.h"
 
-void	ft_init_pipe_fds(t_env *env)
+void	ppx_init_pipe_fds(t_ppx *env)
 {
 	int	size;
 	int	i;
@@ -29,7 +29,7 @@ void	ft_init_pipe_fds(t_env *env)
 	}
 }
 
-void	ft_init_env(int argc, char *argv[], t_env *env)
+void	ppx_init_ppx(int argc, char *argv[], t_ppx *env)
 {
 	env->pos = 0;
 	env->i = 0;
@@ -38,23 +38,23 @@ void	ft_init_env(int argc, char *argv[], t_env *env)
 	env->argc = argc;
 	env->cmd = NULL;
 	env->heredoc = false;
-	if (ft_strncmp(argv[1], "here_doc", 8) == SAME)
+	if (ppx_strncmp(argv[1], "here_doc", 8) == SAME)
 	{
 		env->heredoc = true;
 		++env->pos;
 	}
 	env->cmd_nbr = env->argc - 3 - env->pos;
-	ft_init_pipe_fds(env);
+	ppx_init_pipe_fds(env);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_env	env;
+	t_ppx	env;
 	int		res;
 
 	if (argc < 5)
-		ft_exit_with_error_message(&env, 0);
-	ft_init_env(argc, argv, &env);
-	res = ft_pipex(argv, envp, &env);
+		ppx_exit_with_error_message(&env, 0);
+	ppx_init_ppx(argc, argv, &env);
+	res = ppx_pipex(argv, envp, &env);
 	exit(res);
 }

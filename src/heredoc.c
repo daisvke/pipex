@@ -12,7 +12,7 @@
 
 #include "../inc/pipex.h"
 
-int	ft_get_open_flags(t_env *env)
+int	ppx_get_open_flags(t_ppx *env)
 {
 	int	flags;
 
@@ -24,7 +24,7 @@ int	ft_get_open_flags(t_env *env)
 	return (flags);
 }
 
-void	ft_input_heredoc(t_env *env, char *argv[])
+void	ppx_input_heredoc(t_ppx *env, char *argv[])
 {
 	int		fd;
 	char	*line;
@@ -32,23 +32,23 @@ void	ft_input_heredoc(t_env *env, char *argv[])
 
 	line = NULL;
 	limiter = argv[2];
-	fd = ft_open_file(env, "heredoc_output", \
+	fd = ppx_open_file(env, "heredoc_output", \
 		O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	ft_dup2(env, fd, 1);
+	ppx_dup2(env, fd, 1);
 	while (get_next_line(0, &line) >= 0)
 	{
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == SAME)
+		if (ppx_strncmp(line, limiter, ppx_strlen(limiter)) == SAME)
 		{
 			free(line);
 			line = NULL;
-			ft_close(env, fd);
+			ppx_close(env, fd);
 			return ;
 		}
-		ft_putstr_fd(line, 1, NONE);
-		ft_putstr_fd("\n", 1, NONE);
+		ppx_putstr_fd(line, 1, NONE);
+		ppx_putstr_fd("\n", 1, NONE);
 		free(line);
 	}
 	line = NULL;
-	ft_close(env, fd);
-	ft_exit_with_error_message(env, 6);
+	ppx_close(env, fd);
+	ppx_exit_with_error_message(env, 6);
 }
