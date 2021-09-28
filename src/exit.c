@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/27 05:50:43 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/28 16:09:33 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	ppx_free_pipe_fds(t_ppx *env)
 {
 	int	size;
 	int	i;
-
+	
+	if (!env->cmd_nbr)
+		return ;
 	size = env->cmd_nbr;
 	i = 0;
 	while (i < size)
@@ -24,8 +26,7 @@ void	ppx_free_pipe_fds(t_ppx *env)
 		free(env->pipe_fds[i]);
 		++i;
 	}
-	if (size > 0)
-		free(env->pipe_fds);
+	free(env->pipe_fds);
 }
 
 char	**ppx_get_array_of_error_messages(char *errors[])
@@ -40,6 +41,7 @@ char	**ppx_get_array_of_error_messages(char *errors[])
 	errors[6] = "get_next_line failed";
 	errors[7] = "split failed";
 	errors[8] = "permission denied:";
+	errors[9] = "execve failed: No such file or directory";
 	return (errors);
 }
 
@@ -59,8 +61,7 @@ void	ppx_exit_with_error_message(t_ppx *env, int err_code)
 	err_message = ppx_get_err_message_from_err_code(err_code);
 	ppx_putstr_fd("\npipex: ", STDERR_FILENO, NONE);
 	ppx_putstr_fd(err_message, STDERR_FILENO, NEWLINE);
-	if (err_code != 0)
-		ppx_free_pipe_fds(env);
+	ppx_free_pipe_fds(env);
 	exit(EXIT_FAILURE);
 }
 

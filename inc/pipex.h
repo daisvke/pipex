@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/27 06:00:04 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/28 16:09:17 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # include "get_next_line.h"
 
-# define ERR_MAX				8
+# define ERR_MAX				9
 
 # define NEWLINE				1
 # define NONE					0

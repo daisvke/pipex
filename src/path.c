@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 01:34:45 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/27 05:17:27 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/27 07:26:00 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 bool	ppx_check_access(char *path)
 {
-	if (access(path, F_OK) != SUCCESS || access(path, X_OK) != SUCCESS)
-		return (false);
-	return (true);
+	return (access(path, F_OK) == SUCCESS && access(path, X_OK) == SUCCESS);
 }
 
 char	*ppx_get_key_value_from_envp(char *envp[], char *key)
