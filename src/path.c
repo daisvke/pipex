@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 01:34:45 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/27 07:26:00 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/10/04 01:47:23 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static char	**ppx_get_path(char *envp[], t_ppx *env, char *key)
 	char	**paths_envp_split;
 
 	paths_envp = ppx_get_key_value_from_envp(envp, key);
+	if (!paths_envp)
+		ppx_exit_with_error_message(env, 9);
 	paths_envp_split = ppx_split(paths_envp, ':');
 	if (!paths_envp_split)
 		ppx_exit_with_error_message(env, 7);

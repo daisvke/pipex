@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 02:26:06 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/28 16:09:17 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/10/04 00:27:49 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_ppx	env;
 	int		res;
 
-	if (!envp)
-		ppx_exit_with_error_message(&env, 9);
+	env.cmd_nbr = 0;
 	if (argc < 5)
 		ppx_exit_with_error_message(&env, 0);
 	ppx_init_ppx(argc, argv, &env);

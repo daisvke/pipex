@@ -1,5 +1,5 @@
 CC			=	clang $(FLAGS)
-FLAGS		=	-Wall -Wextra -Werror -g #$(MEM)
+FLAGS		=	-Wall -Wextra -Werror -g
 MEM			=	-fsanitize=address
 
 RM			=	rm -rf
