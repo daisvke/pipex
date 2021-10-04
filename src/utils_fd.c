@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "pipex.h"
 
 int	ppx_open_file(t_ppx *env, char *file_name, int flags, int mod)
 {

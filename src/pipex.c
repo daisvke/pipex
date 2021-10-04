@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "pipex.h"
 
 void	ppx_spawn_child_to_execute_cmd(t_ppx *env, char *argv[], char *envp[])
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "pipex.h"
 
 void	ppx_free_pipe_fds(t_ppx *env)
 {
@@ -31,8 +31,8 @@ void	ppx_free_pipe_fds(t_ppx *env)
 
 char	**ppx_get_array_of_error_messages(char *errors[])
 {
-	errors[0] = "\nUsage1: ./pipex [input file] [cmd1] [cmd2] [output file]\n" \
-		"Usage2: ./pipex here_doc [limiter] [cmd] [cmd1] [output file]\n";
+	errors[0] = "\nUsage1:pipex [input file] [cmd1] [cmd2] [output file]\n" \
+		"Usage2:pipex here_doc [limiter] [cmd] [cmd1] [output file]\n";
 	errors[1] = "malloc failed";
 	errors[2] = "failed to fork child process";
 	errors[3] = "pipe failed";
