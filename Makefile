@@ -1,7 +1,6 @@
 CC			=	clang $(FLAGS)
 FLAGS		=	-Wall -Wextra -Werror -g $(INC)
 INC			=	-I inc
-HEADER		=	../inc/pipex.h
 MEM			=	-fsanitize=address
 
 RM			=	rm -rf
