@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 23:18:50 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/10/04 01:34:54 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:55:55 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	ppx_free_pipe_fds(t_ppx *env)
 
 char	**ppx_get_array_of_error_messages(char *errors[])
 {
-	errors[0] = "\nUsage1:pipex [input file] [cmd1] [cmd2] [output file]\n" \
-		"Usage2:pipex here_doc [limiter] [cmd] [cmd1] [output file]\n";
+	errors[0] = "\nUsage1: pipex [input file] [cmd1] [cmd2] [output file]\n" \
+		"Usage2: pipex here_doc [limiter] [cmd] [cmd1] [output file]";
 	errors[1] = "malloc failed";
 	errors[2] = "failed to fork child process";
 	errors[3] = "pipe failed";
