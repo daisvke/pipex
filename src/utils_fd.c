@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 13:12:35 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/27 06:12:51 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/12/24 06:10:02 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ppx_open_file(t_ppx *env, char *file_name, int flags, int mod)
 	return (fd);
 }
 
-int	ppx_get_fd(t_ppx *env, char *argv[])
+void	ppx_get_fd(t_ppx *env, char *argv[])
 {
 	int	fd;
 	int	open_flags;
@@ -56,7 +56,6 @@ int	ppx_get_fd(t_ppx *env, char *argv[])
 		fd = ppx_open_file(env, argv[env->argc - 1], open_flags, 0664);
 		ppx_dup2(env, fd, 1);
 	}
-	return (fd);
 }
 
 void	ppx_putstr_fd(char *s, int fd, bool option)

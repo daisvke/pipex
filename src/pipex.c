@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 04:39:25 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/10/04 01:12:09 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/12/24 06:09:37 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 void	ppx_spawn_child_to_execute_cmd(t_ppx *env, char *argv[], char *envp[])
 {
 	char	*path_to_cmd;
-	int		fd;
 
 	ppx_close(env, env->pipe_fds[env->i][0]);
 	ppx_dup2(env, env->fd_in, STDIN_FILENO);
 	ppx_dup2(env, env->pipe_fds[env->i][1], STDOUT_FILENO);
-	fd = ppx_get_fd(env, argv);
+	ppx_get_fd(env, argv);
 	env->cmd = ppx_split(argv[env->pos], ' ');
 	if (!env->cmd)
 		ppx_exit_with_error_message(env, 7);
