@@ -1,58 +1,88 @@
-# pipex
-This program mimics pipes and redirections of the Unix system
+# **pipex**
 
-## Installation
-```
-git clone git@github.com:daisvke/pipex.git
+This program mimics pipes and redirections in a Unix-like system.
+
+---
+
+## **Description**
+
+### **Usage**  
+The **pipex** program should be executed with the following syntax:
+
+```bash
 make
-```
-
-## Description
-* pipex should be executed in this way:
-```
 ./pipex file1 cmd1 cmd2 file2
 ```
-Where file1 is the file from which we read, cmd1 and cmd2 are shell commands with their parameters,
-and finally file2 is the file in which we write the output from the last command.
-* The execution of the pipex program should do the same as the next shell command:
-```
+
+Where:
+- **file1** is the file from which we read input.
+- **cmd1** and **cmd2** are the shell commands with their respective parameters.
+- **file2** is the file where the output of the last command will be written.
+
+### **Shell Command Equivalent**
+The execution of the **pipex** program should behave the same as the following shell command:
+
+```bash
 < file1 cmd1 | cmd2 > file2
 ```
-* It handles multiple pipes:
-```
-./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 
-Ex.:
+---
+
+### **Multiple Pipes Support**
+**pipex** handles multiple pipes. For example:
+
+```bash
+./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
+```
+
+#### **Example:**
+
+```bash
 ./pipex test/text cat "sed s/this/THIS/" "sed s/THAT/that/" "sed s/THIS_one/ThIs_OnE/" output
 ```
-<p align=center>
+
+<p align="center">
    <img src="/screenshots/multiple_pipes.png" width="80%" />
 </p>
 
-* It supports '<<' and '>>' when the first parameter is "here_doc":
-```
-./pipex here_doc LIMITER cmd cmd1 cmd2 cmd3 ... file
+---
 
-Ex.:
+### **Here Document Support (<< and >>)**  
+**pipex** also supports **'<<'** and **'>>'** when the first parameter is `here_doc`. This allows for input redirection from a string (the **LIMITER**).
+
+```bash
+./pipex here_doc LIMITER cmd cmd1 cmd2 cmd3 ... file
+```
+
+#### **Example:**
+
+```bash
 ./pipex here_doc LIMITER cat "cat -e" "sed s/e/E/g" "sed s/i/I/g" "awk NR==1" output 
 ```
 
-<p align=center>
+<p align="center">
   <img src="/screenshots/multiple_pipes_and_heredoc.png" width="80%" />
 </p>
 
 Which is equivalent to:
-```
+
+```bash
 cmd << LIMITER | cmd1 >> file
 ```
 
-* It can run commands given by an absolute path, such as:
-```
+---
+
+### **Absolute and Relative Path Support**
+**pipex** can run commands specified by either an **absolute path** or a **relative path**.
+
+#### **Example with Absolute Path:**
+
+```bash
 ./pipex test/text "/bin/ls" "cat -e" output
 ```
 
-* Or by a relative path, such as:
-```
+#### **Example with Relative Path:**
+
+```bash
 ./pipex test/text "./test/cmd.sh" "cat -e" output
 ```
-
